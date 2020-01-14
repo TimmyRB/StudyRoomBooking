@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 // Views
 import 'package:StudyRoomBooking/views/book.dart';
-import 'package:StudyRoomBooking/views/bookings.dart';
+import 'package:StudyRoomBooking/views/qr.dart';
 import 'package:StudyRoomBooking/views/settings.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +21,7 @@ class HomeState extends State<HomePage> {
   int _currentIndex = 0;
   final List<Widget> _views = [
     BookPage(),
-    SettingsPage(),
+    QRPage(),
     SettingsPage()
   ];
 
