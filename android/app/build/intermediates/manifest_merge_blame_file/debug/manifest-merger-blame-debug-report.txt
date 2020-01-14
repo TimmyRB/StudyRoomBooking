@@ -1,0 +1,82 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.StudyRoomBooking"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+9        android:targetSdkVersion="28" />
+10    <!--
+11         Flutter needs it to communicate with the running application
+12         to allow setting breakpoints, to provide hot reload, etc.
+13    -->
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\debug\AndroidManifest.xml:6:5-66
+14-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\debug\AndroidManifest.xml:6:22-64
+15    <uses-permission android:name="android.permission.CAMERA" />
+15-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:31:5-65
+15-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:31:22-62
+16
+17    <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity" />
+17-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:12:9-90
+17-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:12:19-88
+18    <!--
+19     io.flutter.app.FlutterApplication is an android.app.Application that
+20         calls FlutterMain.startInitialization(this); in its onCreate method.
+21         In most cases you can leave this as-is, but you if you want to provide
+22         additional functionality it is fine to subclass or reimplement
+23         FlutterApplication and put your custom class here.
+24    -->
+25    <application
+25-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:8:5-30:19
+26        android:name="io.flutter.app.FlutterApplication"
+26-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:9:9-57
+27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+27-->[androidx.core:core:1.0.1] C:\Users\jnbra\.gradle\caches\transforms-2\files-2.1\a6b3cea9d5982f96644e4f92725f7c69\core-1.0.1\AndroidManifest.xml:22:18-86
+28        android:debuggable="true"
+29        android:icon="@mipmap/ic_launcher"
+29-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:11:9-43
+30        android:label="StudyRoomBooking" >
+30-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:10:9-41
+31        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity" />
+31-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:12:9-90
+31-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:12:19-88
+32        <activity
+32-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:13:9-24:20
+33            android:name="com.example.StudyRoomBooking.MainActivity"
+33-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:14:13-41
+34            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+34-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:17:13-163
+35            android:hardwareAccelerated="true"
+35-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:18:13-47
+36            android:launchMode="singleTop"
+36-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:15:13-43
+37            android:theme="@style/LaunchTheme"
+37-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:16:13-47
+38            android:windowSoftInputMode="adjustResize" >
+38-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:19:13-55
+39            <intent-filter>
+39-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:20:13-23:29
+40                <action android:name="android.intent.action.MAIN" />
+40-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:21:17-68
+40-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:21:25-66
+41
+42                <category android:name="android.intent.category.LAUNCHER" />
+42-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:22:17-76
+42-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:22:27-74
+43            </intent-filter>
+44        </activity>
+45        <!--
+46             Don't delete the meta-data below.
+47             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+48        -->
+49        <meta-data
+49-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:27:9-29:33
+50            android:name="flutterEmbedding"
+50-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:28:13-44
+51            android:value="2" />
+51-->C:\Users\jnbra\Desktop\Projects\StudyRoomBooking\android\app\src\main\AndroidManifest.xml:29:13-30
+52    </application>
+53
+54</manifest>
