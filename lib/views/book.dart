@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'dart:math';
 
 class BookPage extends StatefulWidget {
   BookPage({Key key}) : super(key: key);
@@ -11,6 +12,7 @@ class BookPage extends StatefulWidget {
 class BookState extends State<BookPage> {
 
   CalendarController _calendarController;
+  final _random = new Random();
 
   @override
   void initState() {
@@ -33,8 +35,34 @@ class BookState extends State<BookPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(left: 25, right: 25, top: 15, bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Hello,", style: Theme.of(context).textTheme.subtitle),
+                    Text("Jacob!", style: Theme.of(context).textTheme.title)
+                  ]
+                ),
+                Column(
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage: NetworkImage("https://api.adorable.io/avatars/256/${_random.nextInt(256)}.png"),
+                      backgroundColor: Colors.transparent,
+                    )
+                  ]
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 5.0),
             child: TableCalendar(
-              availableCalendarFormats: {CalendarFormat.month : 'Month'},
+              initialCalendarFormat: CalendarFormat.week,
+              availableCalendarFormats: {CalendarFormat.week : 'Week'},
               calendarController: _calendarController,
               headerStyle: HeaderStyle(
                 titleTextStyle: Theme.of(context).textTheme.headline,
@@ -48,12 +76,30 @@ class BookState extends State<BookPage> {
               calendarStyle: CalendarStyle(
                 weekdayStyle: Theme.of(context).textTheme.display1,
                 weekendStyle: Theme.of(context).textTheme.display1,
-                outsideStyle: Theme.of(context).textTheme.display2,
-                outsideWeekendStyle: Theme.of(context).textTheme.display2,
-                unavailableStyle: Theme.of(context).textTheme.display2,
-                todayColor: Theme.of(context).buttonColor,
-                selectedColor: Theme.of(context).primaryColor
+                outsideStyle: Theme.of(context).textTheme.display3,
+                outsideWeekendStyle: Theme.of(context).textTheme.display3,
+                unavailableStyle: Theme.of(context).textTheme.display3,
+                todayColor: Theme.of(context).primaryColor,
+                selectedColor: Theme.of(context).accentColor,
+                selectedStyle: Theme.of(context).textTheme.display2
               ),
+            ),
+          ),
+          Expanded(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow> [
+                  BoxShadow(
+                    blurRadius: 6.0
+                  )
+                ],
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+              ),
+              child: SizedBox(
+                width: 500,
+                height: 50,
+              )
             )
           )
         ],
