@@ -1,4 +1,4 @@
-package com.example.StudyRoomBooking
+package com.omarnjacob.StudyRoomBooking
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
