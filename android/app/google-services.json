@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "743393401868",
+    "firebase_url": "https://study-room-booking.firebaseio.com",
+    "project_id": "study-room-booking",
+    "storage_bucket": "study-room-booking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743393401868:android:1cff8a90f102acdaa32229",
+        "android_client_info": {
+          "package_name": "com.omarnjacob.StudyRoomBooking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743393401868-fch0houd4oqcuq15unqts25ejvhhb6je.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.omarnjacob.StudyRoomBooking",
+            "certificate_hash": "c9e8b77d75f2ab8b5e4c0b91ecb5b1d82b2b5552"
+          }
+        },
+        {
+          "client_id": "743393401868-0b0lqefe0dlajqm2l7mhhqu6bf3b1hsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtyMOWAZCj2K3PEgpm3p_JSmeLg_H2t64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743393401868-0b0lqefe0dlajqm2l7mhhqu6bf3b1hsq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
