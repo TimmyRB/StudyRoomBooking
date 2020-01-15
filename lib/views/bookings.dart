@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
 
-class BookPage extends StatefulWidget {
-  BookPage({Key key}) : super(key: key);
+class BookingsPage extends StatefulWidget {
+  BookingsPage({Key key}) : super(key: key);
 
   @override
-  BookState createState() => BookState();
+  BookingsState createState() => BookingsState();
 }
 
-class BookState extends State<BookPage> {
+class BookingsState extends State<BookingsPage> {
 
   CalendarController _calendarController;
   final _random = new Random();

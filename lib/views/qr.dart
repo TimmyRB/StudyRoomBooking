@@ -3,7 +3,7 @@ import 'package:barcode_scan_fix/barcode_scan.dart';
 import 'package:flutter/services.dart';
 
 class QRPage extends StatefulWidget {
-  QRPage({Key key}) : super(key: key);
+  QRPage({Key key, String barcode}) : super(key: key);
 
   @override
   QRState createState() => QRState();
@@ -11,6 +11,17 @@ class QRPage extends StatefulWidget {
 
 class QRState extends State<QRPage> {
   String barcode = "";
+
+  @override
+  void initState() {
+    super.initState();
+    scan();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +35,6 @@ class QRState extends State<QRPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              RaisedButton(
-                color: Theme.of(context).primaryColor,
-                onPressed: () {
-                  scan();
-                },
-                child: Text('QR Scanner', style: Theme.of(context).textTheme.display1, softWrap: true,)
-              ),
               Text('$barcode', style: Theme.of(context).textTheme.display1)
             ]
           )

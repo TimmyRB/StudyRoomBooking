@@ -3,7 +3,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/services.dart';
 
 // Views
-import 'package:StudyRoomBooking/views/book.dart';
+import 'package:StudyRoomBooking/views/bookings.dart';
 import 'package:StudyRoomBooking/views/qr.dart';
 import 'package:StudyRoomBooking/views/settings.dart';
 
@@ -20,9 +20,27 @@ class HomeState extends State<HomePage> {
 
   int _currentIndex = 0;
   final List<Widget> _views = [
-    BookPage(),
+    BookingsPage(),
     QRPage(),
     SettingsPage()
+  ];
+
+  final List<FloatingActionButton> _buttons = [
+    FloatingActionButton(
+      onPressed: (){},
+      child: Icon(Icons.add, color: Colors.white),
+      backgroundColor: new Color(4278217215),
+    ),
+    FloatingActionButton(
+      onPressed: null,
+      disabledElevation: 0,
+      backgroundColor: Colors.transparent,
+    ),
+    FloatingActionButton(
+      onPressed: null,
+      disabledElevation: 0,
+      backgroundColor: Colors.transparent,
+    ),
   ];
 
   @override
@@ -53,11 +71,7 @@ class HomeState extends State<HomePage> {
         child: _views[_currentIndex]
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        child: Icon(Icons.add, color: Colors.white),
-        backgroundColor: Theme.of(context).primaryColor,
-      ), 
+      floatingActionButton: _buttons[_currentIndex], 
 
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
