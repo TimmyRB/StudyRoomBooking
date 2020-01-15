@@ -24,7 +24,7 @@ dependencies:
   bubble_bottom_bar: ^1.2.0
   table_calendar: ^2.2.2
   intl: ^0.16.1
-  barcode_scan: ^1.0.0
+  barcode_scan_fix: ^1.0.2
 
 dev_dependencies:
   flutter_test:

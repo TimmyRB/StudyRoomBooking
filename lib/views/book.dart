@@ -35,7 +35,7 @@ class BookState extends State<BookPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 25, right: 25, top: 15, bottom: 20),
+            padding: EdgeInsets.only(left: 25, right: 25, top: 25, bottom: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

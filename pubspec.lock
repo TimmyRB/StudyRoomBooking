@@ -22,13 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
-  barcode_scan:
+  barcode_scan_fix:
     dependency: "direct main"
     description:
-      name: barcode_scan
+      name: barcode_scan_fix
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.2"
   boolean_selector:
     dependency: transitive
     description:
