@@ -1,8 +1,9 @@
+// Packages
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/services.dart';
 
-// Views
+// Pages & Widgets
 import 'package:StudyRoomBooking/views/bookings.dart';
 import 'package:StudyRoomBooking/views/qr.dart';
 import 'package:StudyRoomBooking/views/settings.dart';
