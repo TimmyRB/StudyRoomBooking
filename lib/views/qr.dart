@@ -1,3 +1,4 @@
+// Packages
 import 'package:flutter/material.dart';
 import 'package:barcode_scan_fix/barcode_scan.dart';
 import 'package:flutter/services.dart';

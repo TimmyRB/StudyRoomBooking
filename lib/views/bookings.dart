@@ -1,7 +1,9 @@
+// Packages
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
 
+// Pages & Widgets
 import 'package:StudyRoomBooking/widgets/notFound.dart';
 
 class BookingsPage extends StatefulWidget {
