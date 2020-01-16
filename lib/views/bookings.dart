@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
 
+import 'package:StudyRoomBooking/widgets/notFound.dart';
+
 class BookingsPage extends StatefulWidget {
   BookingsPage({Key key}) : super(key: key);
 
@@ -86,6 +88,7 @@ class BookingsState extends State<BookingsPage> {
             ),
           ),
           Expanded(
+            flex: 10,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 boxShadow: <BoxShadow> [
@@ -96,10 +99,7 @@ class BookingsState extends State<BookingsPage> {
                 color: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
               ),
-              child: SizedBox(
-                width: 500,
-                height: 50,
-              )
+              child: NotFound(),
             )
           )
         ],
