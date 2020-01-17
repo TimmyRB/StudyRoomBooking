@@ -1,6 +1,7 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:StudyRoomBooking/firebase/auth.dart';
 
 // Pages & Widgets
 
@@ -13,6 +14,8 @@ class LoginPage extends StatefulWidget {
 
 class LoginState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
   String _signinError = "";
 
   @override
@@ -78,6 +81,7 @@ class LoginState extends State<LoginPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     TextFormField(
+                                      controller: _emailController,
                                       autocorrect: false,
                                       obscureText: false,
                                       keyboardType: TextInputType.emailAddress,
@@ -111,6 +115,7 @@ class LoginState extends State<LoginPage> {
                                               0.015,
                                     ),
                                     TextFormField(
+                                      controller: _passController,
                                       autocorrect: false,
                                       obscureText: true,
                                       keyboardType:
@@ -187,7 +192,14 @@ class LoginState extends State<LoginPage> {
                                       minWidth: double.infinity,
                                       height: 46.0,
                                       child: RaisedButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          var user = await EmailAuth().signIn(_emailController.text, _passController.text);
+                                          if (user == null) {
+                                            setState(() {
+                                              _signinError = "Incorrect email & password combination";
+                                            });
+                                          }
+                                        },
                                         child: Text("Sign in",
                                             style: Theme.of(context)
                                                 .textTheme
