@@ -28,30 +28,29 @@ class QRState extends State<QRPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Row (
+      body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Column (
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text('$barcode', style: Theme.of(context).textTheme.display1)
-            ]
-          )
+          Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text('$barcode', style: Theme.of(context).textTheme.display1)
+              ])
         ],
       ),
     );
   }
-  
+
   Future scan() async {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() {
         this.barcode = barcode;
       });
-    } on PlatformException catch(e) {
-      if (e.code == BarcodeScanner.CameraAccessDenied){
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
           this.barcode = "Camera Access Denied";
         });
@@ -62,11 +61,11 @@ class QRState extends State<QRPage> {
       }
     } on FormatException {
       setState(() {
-          this.barcode = "User Interrupt";
+        this.barcode = "User Interrupt";
       });
     } catch (e) {
       setState(() {
-          this.barcode = "Unknown Error $e";
+        this.barcode = "Unknown Error $e";
       });
     }
   }

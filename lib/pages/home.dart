@@ -18,17 +18,12 @@ class HomePage extends StatefulWidget {
 }
 
 class HomeState extends State<HomePage> {
-
   int _currentIndex = 0;
-  final List<Widget> _views = [
-    BookingsPage(),
-    QRPage(),
-    SettingsPage()
-  ];
+  final List<Widget> _views = [BookingsPage(), QRPage(), SettingsPage()];
 
   final List<FloatingActionButton> _buttons = [
     FloatingActionButton(
-      onPressed: (){},
+      onPressed: () {},
       child: Icon(Icons.add, color: Colors.white),
       backgroundColor: new Color(4278217215),
     ),
@@ -45,7 +40,7 @@ class HomeState extends State<HomePage> {
   ];
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -53,7 +48,7 @@ class HomeState extends State<HomePage> {
   }
 
   @override
-  dispose(){
+  dispose() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -62,20 +57,14 @@ class HomeState extends State<HomePage> {
     ]);
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-
-      body: SafeArea(
-        child: _views[_currentIndex]
-      ),
-
-      floatingActionButton: _buttons[_currentIndex], 
-
+      body: SafeArea(child: _views[_currentIndex]),
+      floatingActionButton: _buttons[_currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-
       bottomNavigationBar: BubbleBottomBar(
         backgroundColor: Theme.of(context).canvasColor,
         opacity: .15,
@@ -90,9 +79,39 @@ class HomeState extends State<HomePage> {
         hasNotch: true, //new
         hasInk: true, //new, gives a cute ink effect
         items: <BubbleBottomBarItem>[
-            BubbleBottomBarItem(backgroundColor: Colors.blue, icon: Icon(Icons.calendar_today, color: Colors.black,), activeIcon: Icon(Icons.calendar_today, color: Colors.blue,), title: Text("Bookings")),
-            BubbleBottomBarItem(backgroundColor: Colors.deepPurple, icon: Icon(Icons.photo_camera, color: Colors.black,), activeIcon: Icon(Icons.photo_camera, color: Colors.deepPurple,), title: Text("QR Scannner")),
-            BubbleBottomBarItem(backgroundColor: Colors.red, icon: Icon(Icons.settings, color: Colors.black,), activeIcon: Icon(Icons.settings, color: Colors.red,), title: Text("Settings"))
+          BubbleBottomBarItem(
+              backgroundColor: Colors.blue,
+              icon: Icon(
+                Icons.calendar_today,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.calendar_today,
+                color: Colors.blue,
+              ),
+              title: Text("Bookings")),
+          BubbleBottomBarItem(
+              backgroundColor: Colors.deepPurple,
+              icon: Icon(
+                Icons.photo_camera,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.photo_camera,
+                color: Colors.deepPurple,
+              ),
+              title: Text("QR Scannner")),
+          BubbleBottomBarItem(
+              backgroundColor: Colors.red,
+              icon: Icon(
+                Icons.settings,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.settings,
+                color: Colors.red,
+              ),
+              title: Text("Settings"))
         ],
       ),
     );

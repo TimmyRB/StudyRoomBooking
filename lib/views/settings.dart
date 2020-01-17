@@ -9,7 +9,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsState extends State<SettingsPage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +17,8 @@ class SettingsState extends State<SettingsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('👻 Settings Page will go here...', style: Theme.of(context).textTheme.headline)
+          Text('👻 Settings Page will go here...',
+              style: Theme.of(context).textTheme.headline)
         ],
       ),
     );

@@ -9,7 +9,6 @@ class BookPopup extends StatefulWidget {
 }
 
 class BookState extends State<BookPopup> {
-
   @override
   void initState() {
     super.initState();
@@ -29,22 +28,18 @@ class BookState extends State<BookPopup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow> [
-                  BoxShadow(
-                    blurRadius: 6.0
-                  )
-                ],
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
-              ),
-              child: SizedBox(
-                width: 500,
-                height: 50,
-              )
-            )
-          )
+              child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[BoxShadow(blurRadius: 6.0)],
+                    color: Theme.of(context).canvasColor,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25)),
+                  ),
+                  child: SizedBox(
+                    width: 500,
+                    height: 50,
+                  )))
         ],
       ),
     );

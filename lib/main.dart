@@ -15,22 +15,30 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Study Room Booking',
       theme: ThemeData(
-        backgroundColor: new Color(4280164664),
-        primaryColor: new Color(4278217215),
-        accentColor: new Color(4294967295),
-        canvasColor: new Color(4293849073),
-        fontFamily: 'Calibri',
-        textTheme: new TextTheme(
-          headline: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
-          display1: TextStyle(color: new Color(4294967295), fontSize: 16.0),
-          display2: TextStyle(color: new Color(4280164664), fontSize: 16.0),
-          display3: TextStyle(color: new Color(4283848810), fontSize: 16.0),
-          title: TextStyle(color: new Color(4294967295), fontSize: 38.0, fontWeight: FontWeight.bold),
-          subtitle: TextStyle(color: new Color(4283848810), fontSize: 26.0),
-          display4: TextStyle(color: new Color(4280164664), fontSize: 32.0, fontWeight: FontWeight.bold),
-          subhead: TextStyle(color: new Color(4290625220), fontSize: 33.0)
-        )
-      ),
+          backgroundColor: new Color(4280164664),
+          primaryColor: new Color(4278217215),
+          accentColor: new Color(4294967295),
+          canvasColor: new Color(4293849073),
+          fontFamily: 'Calibri',
+          textTheme: new TextTheme(
+              headline: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0),
+              display1: TextStyle(color: new Color(4294967295), fontSize: 16.0),
+              display2: TextStyle(color: new Color(4280164664), fontSize: 16.0),
+              display3: TextStyle(color: new Color(4283848810), fontSize: 16.0),
+              title: TextStyle(
+                  color: new Color(4294967295),
+                  fontSize: 38.0,
+                  fontWeight: FontWeight.bold),
+              subtitle: TextStyle(color: new Color(4283848810), fontSize: 26.0),
+              display4: TextStyle(
+                  color: new Color(4280164664),
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.bold),
+              subhead:
+                  TextStyle(color: new Color(4290625220), fontSize: 33.0))),
       home: LoginPage(),
     );
   }

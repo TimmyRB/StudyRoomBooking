@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 
 // Pages & Widgets
 
-
 class PageName extends StatefulWidget {
   PageName({Key key}) : super(key: key);
 
@@ -13,9 +12,8 @@ class PageName extends StatefulWidget {
 }
 
 class PageState extends State<PageName> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -23,7 +21,7 @@ class PageState extends State<PageName> {
   }
 
   @override
-  dispose(){
+  dispose() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -32,14 +30,12 @@ class PageState extends State<PageName> {
     ]);
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: SafeArea(
-
-      ),
+      body: SafeArea(),
     );
   }
 }
