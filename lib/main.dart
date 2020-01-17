@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 // Pages
 import 'package:StudyRoomBooking/pages/home.dart';
+import 'package:StudyRoomBooking/pages/login.dart';
 
 void main() => initializeDateFormatting().then((_) => runApp(MyApp()));
 
@@ -25,10 +26,12 @@ class MyApp extends StatelessWidget {
           display2: TextStyle(color: new Color(4280164664), fontSize: 16.0),
           display3: TextStyle(color: new Color(4283848810), fontSize: 16.0),
           title: TextStyle(color: new Color(4294967295), fontSize: 38.0, fontWeight: FontWeight.bold),
-          subtitle: TextStyle(color: new Color(4283848810), fontSize: 26.0)
+          subtitle: TextStyle(color: new Color(4283848810), fontSize: 26.0),
+          display4: TextStyle(color: new Color(4280164664), fontSize: 32.0, fontWeight: FontWeight.bold),
+          subhead: TextStyle(color: new Color(4290625220), fontSize: 33.0)
         )
       ),
-      home: HomePage(title: 'Home Page'),
+      home: LoginPage(),
     );
   }
 }
