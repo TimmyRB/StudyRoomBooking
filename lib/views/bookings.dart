@@ -99,7 +99,7 @@ class BookingsState extends State<BookingsPage> {
                   )
                 ],
                 color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
               ),
               child: NotFound(),
             )
