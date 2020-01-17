@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: new Color(4280164664),
         primaryColor: new Color(4278217215),
         accentColor: new Color(4294967295),
-        canvasColor: new Color(4294507003),
+        canvasColor: new Color(4293849073),
         fontFamily: 'Calibri',
         textTheme: new TextTheme(
           headline: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
