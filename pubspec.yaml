@@ -30,6 +30,7 @@ dependencies:
   table_calendar: ^2.2.2
   intl: ^0.16.1
   barcode_scan_fix: ^1.0.2
+  material_design_icons_flutter: ^2.7.94
 
 dev_dependencies:
   flutter_test:
