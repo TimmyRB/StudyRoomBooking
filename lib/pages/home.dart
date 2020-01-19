@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 
 class HomeState extends State<HomePage> {
   int _currentIndex = 0;
-  final List<Widget> _views = [BookingsPage(), QRPage(), SettingsPage()];
+  List<Widget> _views = [];
 
   final List<FloatingActionButton> _buttons = [
     FloatingActionButton(
@@ -48,6 +48,17 @@ class HomeState extends State<HomePage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+
+    _views = [
+      BookingsPage(
+        userId: widget.userId
+      ),
+      QRPage(),
+      SettingsPage(
+        userId: widget.userId,
+        logoutCallback: widget.logoutCallback
+      )
+    ];
   }
 
   @override
