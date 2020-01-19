@@ -1,32 +1,53 @@
-// Packages
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 
-class EmailAuth {
-  final FirebaseAuth auth = FirebaseAuth.instance;
+abstract class BaseAuth {
+  Future<String> signIn(String email, String password);
 
-  Future<FirebaseUser> signIn(String email, String password) async {
-    AuthResult result;
+  Future<String> signUp(String email, String password);
 
-    try {
-      result = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-    } on PlatformException catch (e) {
-			List<String> errors = e.toString().split(',');
-      print("Error: " + errors[1]); 
-			return null;
-		}
+  Future<FirebaseUser> getCurrentUser();
 
-    final FirebaseUser user = result.user;
+  Future<void> sendEmailVerification();
 
-    assert(user != null);
-    assert(await user.getIdToken() != null);
+  Future<void> signOut();
 
-    final FirebaseUser currentUser = await auth.currentUser();
-    assert(user.uid == currentUser.uid);
+  Future<bool> isEmailVerified();
+}
 
-    print('signInEmail succeeded: $user');
+class Auth implements BaseAuth {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  Future<String> signIn(String email, String password) async {
+    AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    FirebaseUser user = result.user;
+    return user.uid;
+  }
+
+  Future<String> signUp(String email, String password) async {
+    AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    FirebaseUser user = result.user;
+    return user.uid;
+  }
+
+  Future<FirebaseUser> getCurrentUser() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
     return user;
+  }
+
+  Future<void> signOut() async {
+    return _firebaseAuth.signOut();
+  }
+
+  Future<void> sendEmailVerification() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    user.sendEmailVerification();
+  }
+
+  Future<bool> isEmailVerified() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    return user.isEmailVerified;
   }
 }
