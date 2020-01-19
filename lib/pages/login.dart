@@ -203,7 +203,9 @@ class LoginState extends State<LoginPage> {
                                             if (userId.length > 0 && userId != null)
                                               widget.loginCallback();
                                           } catch (e) {
-                                            _signinError = e.message;
+                                            setState(() {
+                                              _signinError = _handleAuthErrors(e);
+                                            });
                                           }
                                         },
                                         child: Text("Sign in",
@@ -222,5 +224,35 @@ class LoginState extends State<LoginPage> {
         ],
       )),
     );
+  }
+
+  String _handleAuthErrors (var error) {
+    String e = error.code.toLowerCase().trim();
+    switch (e) {
+      case "error":
+        return "Email & Password cannot be empty";
+        break;
+
+      case "error_invalid_email":
+        return "That email doesn't look right...";
+        break;
+
+      case "error_user_not_found":
+        return "No user found with that email & password";
+        break;
+
+      case "error_wrong_password":
+        return "No user found with that email & password";
+        break;
+
+      case "error_user_disabled":
+        return "Account was disabled, please contact support";
+        break;
+
+      default:
+        print("Unknown error: \"$e\"");
+        return "Please try again later or contact support\nerror code: $e";
+        break;
+    }
   }
 }
