@@ -7,7 +7,9 @@ import 'dart:math';
 import 'package:StudyRoomBooking/widgets/notFound.dart';
 
 class BookingsPage extends StatefulWidget {
-  BookingsPage({Key key}) : super(key: key);
+  BookingsPage({Key key, this.userId}) : super(key: key);
+
+  final String userId;
 
   @override
   BookingsState createState() => BookingsState();
