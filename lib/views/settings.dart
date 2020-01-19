@@ -2,7 +2,10 @@
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({Key key}) : super(key: key);
+  SettingsPage({Key key, this.userId, this.logoutCallback}) : super(key: key);
+
+  final VoidCallback logoutCallback;
+  final String userId;
 
   @override
   SettingsState createState() => SettingsState();
@@ -18,7 +21,13 @@ class SettingsState extends State<SettingsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('👻 Settings Page will go here...',
-              style: Theme.of(context).textTheme.headline)
+              style: Theme.of(context).textTheme.headline),
+          RaisedButton(
+            child: Text("Logout"),
+            onPressed: () {
+              widget.logoutCallback();
+            },
+          )
         ],
       ),
     );
