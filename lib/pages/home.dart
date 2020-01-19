@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/services.dart';
+import 'package:StudyRoomBooking/firebase/auth.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/views/bookings.dart';
@@ -9,9 +10,11 @@ import 'package:StudyRoomBooking/views/qr.dart';
 import 'package:StudyRoomBooking/views/settings.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({Key key, this.auth, this.userId, this.logoutCallback}) : super(key: key);
 
-  final String title;
+  final BaseAuth auth;
+  final VoidCallback logoutCallback;
+  final String userId;
 
   @override
   HomeState createState() => HomeState();

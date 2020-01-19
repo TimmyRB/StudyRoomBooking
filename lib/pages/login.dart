@@ -6,7 +6,10 @@ import 'package:StudyRoomBooking/firebase/auth.dart';
 // Pages & Widgets
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+  LoginPage({Key key, this.auth, this.loginCallback}) : super(key: key);
+
+  final BaseAuth auth;
+  final VoidCallback loginCallback;
 
   @override
   LoginState createState() => LoginState();
@@ -193,11 +196,14 @@ class LoginState extends State<LoginPage> {
                                       height: 46.0,
                                       child: RaisedButton(
                                         onPressed: () async {
-                                          var user = await EmailAuth().signIn(_emailController.text, _passController.text);
-                                          if (user == null) {
-                                            setState(() {
-                                              _signinError = "Incorrect email & password combination";
-                                            });
+                                          try {
+                                            String userId = await widget.auth.signIn(_emailController.text, _passController.text);
+                                            print('Signed in user: $userId');
+
+                                            if (userId.length > 0 && userId != null)
+                                              widget.loginCallback();
+                                          } catch (e) {
+                                            _signinError = e.message;
                                           }
                                         },
                                         child: Text("Sign in",
