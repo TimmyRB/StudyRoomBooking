@@ -106,10 +106,6 @@ class RootState extends State<Root> {
   Widget buildWaitingScreen() {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Container(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(),
-      ),
     );
   }
 
