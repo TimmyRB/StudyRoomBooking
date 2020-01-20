@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
 
 // Pages & Widgets
+import 'package:StudyRoomBooking/pages/signup.dart';
+import 'package:StudyRoomBooking/widgets/loginForm.dart';
+import 'package:StudyRoomBooking/widgets/buttons.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.auth, this.loginCallback}) : super(key: key);
@@ -83,69 +86,27 @@ class LoginState extends State<LoginPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    TextFormField(
+                                    Field(
+                                      label: "Email",
                                       controller: _emailController,
-                                      autocorrect: false,
-                                      obscureText: false,
                                       keyboardType: TextInputType.emailAddress,
-                                      style: TextStyle(
-                                          color: new Color(4290625220),
-                                          fontSize: 18.0),
-                                      decoration: InputDecoration(
-                                          prefixIcon: Icon(Icons.email),
-                                          hasFloatingPlaceholder: false,
-                                          isDense: true,
-                                          filled: true,
-                                          fillColor: Color(4294967295),
-                                          labelText: "Email",
-                                          labelStyle: TextStyle(
-                                              color: new Color(4290625220),
-                                              fontSize: 20.0),
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                              borderSide: BorderSide(
-                                                color: Color(4294967295),
-                                              )),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color(4278217215),
-                                                  width: 1.5))),
+                                      prefixIcon: Icon(Icons.email),
+                                      autoCorrect: false,
+                                      obscureText: false,
                                     ),
                                     SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.015,
                                     ),
-                                    TextFormField(
+                                    Field(
+                                      label: "Password",
                                       controller: _passController,
-                                      autocorrect: false,
-                                      obscureText: true,
                                       keyboardType:
                                           TextInputType.visiblePassword,
-                                      style: TextStyle(
-                                          color: new Color(4290625220),
-                                          fontSize: 18.0),
-                                      decoration: InputDecoration(
-                                          prefixIcon: Icon(Icons.vpn_key),
-                                          hasFloatingPlaceholder: false,
-                                          isDense: true,
-                                          filled: true,
-                                          fillColor: Color(4294967295),
-                                          labelText: "Password",
-                                          labelStyle: TextStyle(
-                                              color: new Color(4290625220),
-                                              fontSize: 20.0),
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                              borderSide: BorderSide(
-                                                color: Color(4294967295),
-                                              )),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color(4278217215),
-                                                  width: 1.5))),
+                                      prefixIcon: Icon(Icons.vpn_key),
+                                      autoCorrect: false,
+                                      obscureText: true,
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -177,7 +138,14 @@ class LoginState extends State<LoginPage> {
                                               Theme.of(context).canvasColor,
                                           highlightColor:
                                               Theme.of(context).canvasColor,
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SignupPage()),
+                                            );
+                                          },
                                           child: Text("Create an account",
                                               style: TextStyle(
                                                   color: new Color(4278217215),
@@ -185,35 +153,25 @@ class LoginState extends State<LoginPage> {
                                         ),
                                       ],
                                     ),
-                                    ButtonTheme(
-                                      buttonColor:
-                                          Theme.of(context).primaryColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                      ),
-                                      minWidth: double.infinity,
-                                      height: 46.0,
-                                      child: RaisedButton(
+                                    LoginButton(
+                                        context: context,
                                         onPressed: () async {
                                           try {
-                                            String userId = await widget.auth.signIn(_emailController.text, _passController.text);
+                                            String userId = await widget.auth
+                                                .signIn(_emailController.text,
+                                                    _passController.text);
                                             print('Signed in user: $userId');
 
-                                            if (userId.length > 0 && userId != null)
+                                            if (userId.length > 0 &&
+                                                userId != null)
                                               widget.loginCallback();
                                           } catch (e) {
                                             setState(() {
-                                              _signinError = _handleAuthErrors(e);
+                                              _signinError =
+                                                  _handleAuthErrors(e);
                                             });
                                           }
-                                        },
-                                        child: Text("Sign in",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .display1),
-                                      ),
-                                    )
+                                        })
                                   ],
                                 ))
                           ],
@@ -226,7 +184,7 @@ class LoginState extends State<LoginPage> {
     );
   }
 
-  String _handleAuthErrors (var error) {
+  String _handleAuthErrors(var error) {
     String e = error.code.toLowerCase().trim();
     switch (e) {
       case "error":
