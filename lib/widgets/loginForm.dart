@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 
-Widget Field(TextEditingController _controller, String _label,
-    TextInputType _keyboardType, Icon _prefixIcon, bool _autoCorrect, bool _obsureText) {
+Widget Field(
+    {final String label,
+    final TextEditingController controller,
+    final TextInputType keyboardType,
+    final Icon prefixIcon,
+    final bool autoCorrect,
+    final bool obscureText}) {
   return TextFormField(
-    controller: _controller,
-    autocorrect: _autoCorrect,
-    obscureText: _obsureText,
-    keyboardType: _keyboardType,
+    controller: controller,
+    autocorrect: autoCorrect,
+    obscureText: obscureText,
+    keyboardType: keyboardType,
     style: TextStyle(color: new Color(4290625220), fontSize: 18.0),
     decoration: InputDecoration(
-        prefixIcon: _prefixIcon,
+        prefixIcon: prefixIcon,
         hasFloatingPlaceholder: false,
         isDense: true,
         filled: true,
         fillColor: Color(4294967295),
-        labelText: _label,
+        labelText: label,
         labelStyle: TextStyle(color: new Color(4290625220), fontSize: 20.0),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(5)),
