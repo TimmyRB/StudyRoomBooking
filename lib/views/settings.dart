@@ -20,8 +20,6 @@ class SettingsState extends State<SettingsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('👻 Settings Page will go here...',
-              style: Theme.of(context).textTheme.headline),
           RaisedButton(
             child: Text("Logout"),
             onPressed: () {
