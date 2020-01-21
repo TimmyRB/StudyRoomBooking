@@ -35,7 +35,9 @@ class PageState extends State<PageName> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: SafeArea(),
+      body: SafeArea(
+        child: Spacer()
+      ),
     );
   }
 }
