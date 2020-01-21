@@ -95,6 +95,17 @@ class RootState extends State<Root> {
     });
   }
 
+  void signupCallback() {
+    widget.auth.getCurrentUser().then((user) {
+      setState(() {
+        _userId = user.uid.toString();
+      });
+    });
+    setState(() {
+      authStatus = AuthStatus.LOGGED_IN;
+    });
+  }
+
   void logoutCallback() async {
     await widget.auth.signOut();
     setState(() {
@@ -119,6 +130,7 @@ class RootState extends State<Root> {
         return new LoginPage(
           auth: widget.auth,
           loginCallback: loginCallback,
+          signupCallback: signupCallback
         );
         break;
       case AuthStatus.LOGGED_IN:

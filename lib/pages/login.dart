@@ -10,10 +10,11 @@ import 'package:StudyRoomBooking/widgets/buttons.dart';
 import 'package:StudyRoomBooking/widgets/forgotCreate.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.auth, this.loginCallback}) : super(key: key);
+  LoginPage({Key key, this.auth, this.loginCallback, this.signupCallback}) : super(key: key);
 
   final BaseAuth auth;
   final VoidCallback loginCallback;
+  final VoidCallback signupCallback;
 
   @override
   LoginState createState() => LoginState();
@@ -117,7 +118,10 @@ class LoginState extends State<LoginPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    SignupPage()),
+                                                    SignupPage(
+                                                      auth: widget.auth,
+                                                      signupCallback: widget.signupCallback
+                                                    )),
                                           );
                                         }),
                                     AuthButton(

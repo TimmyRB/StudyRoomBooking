@@ -9,10 +9,10 @@ import 'package:StudyRoomBooking/widgets/loginForm.dart';
 import 'package:StudyRoomBooking/widgets/buttons.dart';
 
 class SignupPage extends StatefulWidget {
-  SignupPage({Key key, this.auth, this.loginCallback}) : super(key: key);
+  SignupPage({Key key, this.auth, this.signupCallback}) : super(key: key);
 
   final BaseAuth auth;
-  final VoidCallback loginCallback;
+  final VoidCallback signupCallback;
 
   @override
   SignupState createState() => SignupState();
@@ -97,11 +97,13 @@ class SignupState extends State<SignupPage> {
                             Text("Welcome",
                                 style: Theme.of(context).textTheme.display4),
                             Text("create your account",
-                                style: Theme.of(context).textTheme.subhead),
+                                style: TextStyle(
+                                    color: new Color(4290625220),
+                                    fontSize: 27.0)),
                             Text(_signinError,
                                 style: TextStyle(
                                     color: new Color(4293278022),
-                                    fontSize: 14.0)),
+                                    fontSize: 16.0)),
                             Form(
                                 key: _formKey,
                                 child: Column(
@@ -168,7 +170,32 @@ class SignupState extends State<SignupPage> {
                                     AuthButton(
                                         context: context,
                                         label: "Sign up",
-                                        onPressed: () async {})
+                                        onPressed: () async {
+                                          try {
+                                            String userId = await widget.auth
+                                                .signUp(_emailController.text,
+                                                    _passController.text);
+                                            print('Signed up user: $userId');
+
+                                            if (userId.length > 0 &&
+                                                userId != null) {
+                                              widget.auth
+                                                  .sendEmailVerification();
+                                              widget.signupCallback();
+                                              Navigator.pop(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LoginPage()),
+                                              );
+                                            }
+                                          } catch (e) {
+                                            setState(() {
+                                              _signinError =
+                                                  _handleAuthErrors(e);
+                                            });
+                                          }
+                                        })
                                   ],
                                 ))
                           ],
@@ -192,16 +219,16 @@ class SignupState extends State<SignupPage> {
         return "That email doesn't look right...";
         break;
 
-      case "error_user_not_found":
-        return "No user found with that email & password";
+      case "error_email_already_in_use":
+        return "Email address is already in use";
         break;
 
       case "error_wrong_password":
         return "No user found with that email & password";
         break;
 
-      case "error_user_disabled":
-        return "Account was disabled, please contact support";
+      case "error_weak_password":
+        return "Password is too weak";
         break;
 
       default:
