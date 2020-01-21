@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget LoginButton({final BuildContext context, final VoidCallback onPressed}) {
-  ButtonTheme(
+Widget AuthButton({final BuildContext context, final VoidCallback onPressed, final String label}) {
+  return ButtonTheme(
     buttonColor: Theme.of(context).primaryColor,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -12,7 +12,7 @@ Widget LoginButton({final BuildContext context, final VoidCallback onPressed}) {
       onPressed: () async {
         onPressed();
       },
-      child: Text("Sign in", style: Theme.of(context).textTheme.display1),
+      child: Text(label, style: Theme.of(context).textTheme.display1),
     ),
   );
 }
