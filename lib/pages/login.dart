@@ -7,6 +7,7 @@ import 'package:StudyRoomBooking/firebase/auth.dart';
 import 'package:StudyRoomBooking/pages/signup.dart';
 import 'package:StudyRoomBooking/widgets/loginForm.dart';
 import 'package:StudyRoomBooking/widgets/buttons.dart';
+import 'package:StudyRoomBooking/widgets/forgotCreate.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.auth, this.loginCallback}) : super(key: key);
@@ -108,53 +109,20 @@ class LoginState extends State<LoginPage> {
                                       autoCorrect: false,
                                       obscureText: true,
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        FlatButton(
-                                          padding: EdgeInsets.all(0),
-                                          splashColor:
-                                              Theme.of(context).canvasColor,
-                                          focusColor:
-                                              Theme.of(context).canvasColor,
-                                          hoverColor:
-                                              Theme.of(context).canvasColor,
-                                          highlightColor:
-                                              Theme.of(context).canvasColor,
-                                          onPressed: () {},
-                                          child: Text("Forgot Password",
-                                              style: TextStyle(
-                                                  color: new Color(4290625220),
-                                                  fontSize: 16.0)),
-                                        ),
-                                        FlatButton(
-                                          padding: EdgeInsets.all(0),
-                                          splashColor:
-                                              Theme.of(context).canvasColor,
-                                          focusColor:
-                                              Theme.of(context).canvasColor,
-                                          hoverColor:
-                                              Theme.of(context).canvasColor,
-                                          highlightColor:
-                                              Theme.of(context).canvasColor,
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SignupPage()),
-                                            );
-                                          },
-                                          child: Text("Create an account",
-                                              style: TextStyle(
-                                                  color: new Color(4278217215),
-                                                  fontSize: 16.0)),
-                                        ),
-                                      ],
-                                    ),
-                                    LoginButton(
+                                    ForgotCreate(
                                         context: context,
+                                        forgotCallback: () {},
+                                        createCallback: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SignupPage()),
+                                          );
+                                        }),
+                                    AuthButton(
+                                        context: context,
+                                        label: "Sign in",
                                         onPressed: () async {
                                           try {
                                             String userId = await widget.auth
