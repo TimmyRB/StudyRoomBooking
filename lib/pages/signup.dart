@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
+import 'package:StudyRoomBooking/firebase/user.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/pages/login.dart';
@@ -9,10 +10,12 @@ import 'package:StudyRoomBooking/widgets/loginForm.dart';
 import 'package:StudyRoomBooking/widgets/buttons.dart';
 
 class SignupPage extends StatefulWidget {
-  SignupPage({Key key, this.auth, this.signupCallback}) : super(key: key);
+  SignupPage({Key key, this.auth, this.signupCallback, this.userDB})
+      : super(key: key);
 
   final BaseAuth auth;
   final VoidCallback signupCallback;
+  final BaseUser userDB;
 
   @override
   SignupState createState() => SignupState();
@@ -22,6 +25,8 @@ class SignupState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _surnameController = TextEditingController();
   String _signinError = "";
 
   @override
@@ -114,6 +119,7 @@ class SignupState extends State<SignupPage> {
                                         Expanded(
                                           child: Field(
                                               label: "Name",
+                                              controller: _nameController,
                                               prefixIcon: Icon(Icons.person),
                                               keyboardType: TextInputType.text,
                                               autoCorrect: true,
@@ -123,11 +129,12 @@ class SignupState extends State<SignupPage> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.015,
+                                              0.02,
                                         ),
                                         Expanded(
                                           child: Field(
                                               label: "Surname",
+                                              controller: _surnameController,
                                               prefixIcon: Icon(Icons.people),
                                               keyboardType: TextInputType.text,
                                               autoCorrect: true,
@@ -138,7 +145,7 @@ class SignupState extends State<SignupPage> {
                                     SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height *
-                                              0.015,
+                                              0.01,
                                     ),
                                     Field(
                                       label: "Email",
@@ -151,7 +158,7 @@ class SignupState extends State<SignupPage> {
                                     SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height *
-                                              0.015,
+                                              0.01,
                                     ),
                                     Field(
                                       label: "Password",
@@ -179,6 +186,14 @@ class SignupState extends State<SignupPage> {
 
                                             if (userId.length > 0 &&
                                                 userId != null) {
+                                              try {
+                                                widget.userDB.createUser(
+                                                    userId,
+                                                    _nameController.text,
+                                                    _surnameController.text);
+                                              } catch (error) {
+                                                print(error);
+                                              }
                                               widget.auth
                                                   .sendEmailVerification();
                                               widget.signupCallback();

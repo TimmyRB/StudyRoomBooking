@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
+import 'package:StudyRoomBooking/firebase/user.dart';
 
 // Pages
 import 'package:StudyRoomBooking/pages/home.dart';
@@ -46,15 +47,16 @@ class Main extends StatelessWidget {
                   fontWeight: FontWeight.bold),
               subhead:
                   TextStyle(color: new Color(4290625220), fontSize: 33.0))),
-      home: new Root(auth: new Auth()),
+      home: new Root(auth: new Auth(), userDB: new User()),
     );
   }
 }
 
 class Root extends StatefulWidget {
-  Root({Key key, this.auth}) : super(key: key);
+  Root({Key key, this.auth, this.userDB}) : super(key: key);
 
   final BaseAuth auth;
+  final BaseUser userDB;
 
   @override
   RootState createState() => RootState();
@@ -130,7 +132,8 @@ class RootState extends State<Root> {
         return new LoginPage(
           auth: widget.auth,
           loginCallback: loginCallback,
-          signupCallback: signupCallback
+          signupCallback: signupCallback,
+          userDB: widget.userDB
         );
         break;
       case AuthStatus.LOGGED_IN:
@@ -139,6 +142,7 @@ class RootState extends State<Root> {
             userId: _userId,
             auth: widget.auth,
             logoutCallback: logoutCallback,
+            userDB: widget.userDB
           );
         } else
           return buildWaitingScreen();

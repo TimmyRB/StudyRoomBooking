@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
+import 'package:StudyRoomBooking/firebase/user.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/pages/signup.dart';
@@ -10,9 +11,10 @@ import 'package:StudyRoomBooking/widgets/buttons.dart';
 import 'package:StudyRoomBooking/widgets/forgotCreate.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.auth, this.loginCallback, this.signupCallback}) : super(key: key);
+  LoginPage({Key key, this.auth, this.loginCallback, this.signupCallback, this.userDB}) : super(key: key);
 
   final BaseAuth auth;
+  final BaseUser userDB;
   final VoidCallback loginCallback;
   final VoidCallback signupCallback;
 
@@ -120,7 +122,8 @@ class LoginState extends State<LoginPage> {
                                                 builder: (context) =>
                                                     SignupPage(
                                                       auth: widget.auth,
-                                                      signupCallback: widget.signupCallback
+                                                      signupCallback: widget.signupCallback,
+                                                      userDB: widget.userDB,
                                                     )),
                                           );
                                         }),

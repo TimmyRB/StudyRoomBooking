@@ -2,13 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
+import 'package:StudyRoomBooking/firebase/user.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/widgets/notFound.dart';
 
 class BookingsPage extends StatefulWidget {
-  BookingsPage({Key key, this.userId}) : super(key: key);
+  BookingsPage({Key key, this.userId, this.userDB}) : super(key: key);
 
+  final BaseUser userDB;
   final String userId;
 
   @override
@@ -18,11 +20,17 @@ class BookingsPage extends StatefulWidget {
 class BookingsState extends State<BookingsPage> {
   CalendarController _calendarController;
   final _random = new Random();
+  String _name = "";
 
   @override
   void initState() {
     super.initState();
     _calendarController = new CalendarController();
+    widget.userDB.getUserName(widget.userId).then((name) {
+      setState(() {
+        _name = name;
+      });
+    });
   }
 
   @override
@@ -49,7 +57,7 @@ class BookingsState extends State<BookingsPage> {
                     children: <Widget>[
                       Text("Hello,",
                           style: Theme.of(context).textTheme.subtitle),
-                      Text("Jacob!", style: Theme.of(context).textTheme.title)
+                      Text(_name + "!", style: Theme.of(context).textTheme.title)
                     ]),
                 Column(children: <Widget>[
                   CircleAvatar(

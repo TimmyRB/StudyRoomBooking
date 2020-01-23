@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
+import 'package:StudyRoomBooking/firebase/user.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/views/bookings.dart';
@@ -10,9 +11,10 @@ import 'package:StudyRoomBooking/views/qr.dart';
 import 'package:StudyRoomBooking/views/settings.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.logoutCallback}) : super(key: key);
+  HomePage({Key key, this.auth, this.userId, this.logoutCallback, this.userDB}) : super(key: key);
 
   final BaseAuth auth;
+  final BaseUser userDB;
   final VoidCallback logoutCallback;
   final String userId;
 
@@ -23,6 +25,7 @@ class HomePage extends StatefulWidget {
 class HomeState extends State<HomePage> {
   int _currentIndex = 0;
   List<Widget> _views = [];
+  GlobalKey _scaffold = new GlobalKey<ScaffoldState>();
 
   final List<FloatingActionButton> _buttons = [
     FloatingActionButton(
@@ -51,7 +54,8 @@ class HomeState extends State<HomePage> {
 
     _views = [
       BookingsPage(
-        userId: widget.userId
+        userId: widget.userId,
+        userDB: widget.userDB
       ),
       QRPage(),
       SettingsPage(
@@ -74,7 +78,13 @@ class HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    widget.auth.isEmailVerified().then((v) {
+      if (!v) {
+        print("Email not Verified");
+      }
+    });
     return Scaffold(
+      key: _scaffold,
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(child: _views[_currentIndex]),
       floatingActionButton: _buttons[_currentIndex],
