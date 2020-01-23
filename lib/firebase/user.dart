@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract class BaseUser {
   Future<void> createUser(String userId, String firstName, String lastName);
 
-  Future<DocumentSnapshot> getUserData(String userId);
+  Future<Map> getUserData(String userId);
 
   Future<String> getUserName(String userId);
 }
@@ -22,14 +22,14 @@ class User implements BaseUser {
     });
   }
 
-  Future<DocumentSnapshot> getUserData(String userId) async {
+  Future<Map> getUserData(String userId) async {
     DocumentReference userDoc = dbRef.collection("Users").document(userId);
 
-    userDoc.get().then((data) {
-      return data;
+    Map<String, dynamic> data = await userDoc.get().then((doc) {
+      return doc.data;
     });
 
-    return null;
+    return data;
   }
 
   Future<String> getUserName(String userId) async {
