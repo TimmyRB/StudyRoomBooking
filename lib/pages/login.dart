@@ -6,7 +6,7 @@ import 'package:StudyRoomBooking/firebase/user.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/pages/signup.dart';
-import 'package:StudyRoomBooking/widgets/loginForm.dart';
+import 'package:StudyRoomBooking/widgets/fields.dart';
 import 'package:StudyRoomBooking/widgets/buttons.dart';
 import 'package:StudyRoomBooking/widgets/forgotCreate.dart';
 
