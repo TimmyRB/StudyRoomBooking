@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
 import 'package:StudyRoomBooking/firebase/user.dart';
+import 'package:StudyRoomBooking/firebase/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/widgets/notFound.dart';
 
 class BookingsPage extends StatefulWidget {
-  BookingsPage({Key key, this.userId, this.userDB}) : super(key: key);
+  BookingsPage({Key key, this.userId, this.userDB, this.auth}) : super(key: key);
 
   final BaseUser userDB;
+  final BaseAuth auth;
   final String userId;
 
   @override
@@ -21,6 +24,7 @@ class BookingsState extends State<BookingsPage> {
   CalendarController _calendarController;
   final _random = new Random();
   String _name = "";
+  String _photo = "https://ui-avatars.com/api/?name=No+User";
 
   @override
   void initState() {
@@ -29,6 +33,14 @@ class BookingsState extends State<BookingsPage> {
     widget.userDB.getUserName(widget.userId).then((name) {
       setState(() {
         _name = name;
+      });
+    });
+
+    Future(() async {
+      await widget.auth.getCurrentUser().then((user) {
+        setState(() {
+          _photo = (user.photoUrl != null ? user.photoUrl : "https://ui-avatars.com/api/?name=No+User");
+        });
       });
     });
   }
@@ -48,7 +60,7 @@ class BookingsState extends State<BookingsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 25, right: 25, top: 25, bottom: 0),
+            padding: EdgeInsets.only(left: 25, right: 25, top: 25, bottom: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -63,7 +75,7 @@ class BookingsState extends State<BookingsPage> {
                   CircleAvatar(
                     radius: 30.0,
                     backgroundImage: NetworkImage(
-                        "https://api.adorable.io/avatars/256/${_random.nextInt(256)}.png"),
+                        _photo),
                     backgroundColor: Colors.transparent,
                   )
                 ])
@@ -73,6 +85,9 @@ class BookingsState extends State<BookingsPage> {
           Container(
             margin: EdgeInsets.only(bottom: 5.0),
             child: TableCalendar(
+              startDay: DateTime.now(),
+              endDay: DateTime.now().add(new Duration(days: 14)),
+              startingDayOfWeek: StartingDayOfWeek.sunday,
               initialCalendarFormat: CalendarFormat.week,
               availableCalendarFormats: {CalendarFormat.week: 'Week'},
               calendarController: _calendarController,
