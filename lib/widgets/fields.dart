@@ -30,3 +30,31 @@ Widget Field(
             borderSide: BorderSide(color: Color(4278217215), width: 1.5))),
   );
 }
+
+Widget TitleField(
+    {final String label,
+    final TextEditingController controller,
+    final TextInputType keyboardType,
+    final Icon prefixIcon,
+    final bool autoCorrect,
+    final bool obscureText}) {
+  return TextFormField(
+    controller: controller,
+    autocorrect: autoCorrect,
+    obscureText: obscureText,
+    keyboardType: keyboardType,
+    style: TextStyle(color: new Color(4280164664), fontSize: 20.0, fontFamily: 'Calibri', fontWeight: FontWeight.bold),
+    decoration: InputDecoration(
+        prefixIcon: prefixIcon,
+        hasFloatingPlaceholder: false,
+        isDense: false,
+        labelText: label,
+        labelStyle: TextStyle(color: new Color(4280164664), fontSize: 20.0, fontFamily: 'Calibri', fontWeight: FontWeight.bold),
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(4293322733)
+          )
+        )
+        ),
+  );
+}
