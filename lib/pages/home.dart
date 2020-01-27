@@ -9,9 +9,11 @@ import 'package:StudyRoomBooking/firebase/user.dart';
 import 'package:StudyRoomBooking/views/bookings.dart';
 import 'package:StudyRoomBooking/views/qr.dart';
 import 'package:StudyRoomBooking/views/settings.dart';
+import 'package:StudyRoomBooking/popups/bookPopup.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.logoutCallback, this.userDB}) : super(key: key);
+  HomePage({Key key, this.auth, this.userId, this.logoutCallback, this.userDB})
+      : super(key: key);
 
   final BaseAuth auth;
   final BaseUser userDB;
@@ -27,23 +29,7 @@ class HomeState extends State<HomePage> {
   List<Widget> _views = [];
   GlobalKey _scaffold = new GlobalKey<ScaffoldState>();
 
-  final List<FloatingActionButton> _buttons = [
-    FloatingActionButton(
-      onPressed: () {},
-      child: Icon(Icons.add, color: Colors.white),
-      backgroundColor: new Color(4278217215),
-    ),
-    FloatingActionButton(
-      onPressed: null,
-      disabledElevation: 0,
-      backgroundColor: Colors.transparent,
-    ),
-    FloatingActionButton(
-      onPressed: null,
-      disabledElevation: 0,
-      backgroundColor: Colors.transparent,
-    ),
-  ];
+  List<FloatingActionButton> _buttons = [];
 
   @override
   void initState() {
@@ -53,15 +39,26 @@ class HomeState extends State<HomePage> {
     ]);
 
     _views = [
-      BookingsPage(
-        userId: widget.userId,
-        userDB: widget.userDB
-      ),
+      BookingsPage(userId: widget.userId, userDB: widget.userDB, auth: widget.auth),
       QRPage(),
-      SettingsPage(
-        userId: widget.userId,
-        logoutCallback: widget.logoutCallback
-      )
+      SettingsPage(userId: widget.userId, logoutCallback: widget.logoutCallback)
+    ];
+
+    _buttons = [
+      FloatingActionButton(
+        onPressed: () {
+          Future.delayed(Duration.zero, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BookPopup()),
+            );
+          });
+        },
+        child: Icon(Icons.add, color: Colors.white),
+        backgroundColor: new Color(4278217215),
+      ),
+      null,
+      null
     ];
   }
 
