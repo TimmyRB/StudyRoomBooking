@@ -17,15 +17,16 @@ class SettingsState extends State<SettingsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          RaisedButton(
+          Center(
+              child: RaisedButton(
             child: Text("Logout"),
             onPressed: () {
               widget.logoutCallback();
             },
-          )
+          ))
         ],
       ),
     );
