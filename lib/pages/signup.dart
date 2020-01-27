@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
 import 'package:StudyRoomBooking/firebase/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/pages/login.dart';
-import 'package:StudyRoomBooking/widgets/loginForm.dart';
+import 'package:StudyRoomBooking/widgets/fields.dart';
 import 'package:StudyRoomBooking/widgets/buttons.dart';
 
 class SignupPage extends StatefulWidget {
@@ -191,6 +192,18 @@ class SignupState extends State<SignupPage> {
                                                     userId,
                                                     _nameController.text,
                                                     _surnameController.text);
+                                                var info = UserUpdateInfo();
+                                                info.displayName =
+                                                    _nameController.text +
+                                                        " " +
+                                                        _surnameController.text;
+                                                info.photoUrl =
+                                                    "https://ui-avatars.com/api/?name=${_nameController.text}+${_surnameController.text}";
+                                                await widget.auth
+                                                    .getCurrentUser()
+                                                    .then((user) {
+                                                  user.updateProfile(info);
+                                                });
                                               } catch (error) {
                                                 print(error);
                                               }
