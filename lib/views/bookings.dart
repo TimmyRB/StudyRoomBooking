@@ -1,15 +1,16 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:StudyRoomBooking/firebase/user.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/widgets/notFound.dart';
 
 class BookingsPage extends StatefulWidget {
-  BookingsPage({Key key, this.userId, this.userDB, this.auth}) : super(key: key);
+  BookingsPage({Key key, this.userId, this.userDB, this.auth})
+      : super(key: key);
 
   final BaseUser userDB;
   final BaseAuth auth;
@@ -28,19 +29,37 @@ class BookingsState extends State<BookingsPage> {
   void initState() {
     super.initState();
     _calendarController = new CalendarController();
-    widget.userDB.getUserName(widget.userId).then((name) {
-      setState(() {
-        _name = name;
-      });
-    });
 
     Future(() async {
-      await widget.auth.getCurrentUser().then((user) {
+      widget.auth.getCurrentUser().then((user) {
         setState(() {
-          _photo = (user.photoUrl != null ? user.photoUrl : "https://ui-avatars.com/api/?name=No+User");
+          _photo = (user.photoUrl != null
+              ? user.photoUrl
+              : "https://ui-avatars.com/api/?name=No+User");
+        });
+      });
+
+      widget.userDB.getUserName(widget.userId).then((name) {
+        _saveName(name + '!');
+      });
+
+      _getName().then((name) {
+        setState(() {
+          _name = (name != null ? name : "");
         });
       });
     });
+  }
+
+  void _saveName(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', name);
+  }
+
+  Future<String> _getName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String n = prefs.getString('name');
+    return n;
   }
 
   @override
@@ -67,13 +86,12 @@ class BookingsState extends State<BookingsPage> {
                     children: <Widget>[
                       Text("Hello,",
                           style: Theme.of(context).textTheme.subtitle),
-                      Text(_name + "!", style: Theme.of(context).textTheme.title)
+                      Text(_name, style: Theme.of(context).textTheme.title)
                     ]),
                 Column(children: <Widget>[
                   CircleAvatar(
                     radius: 30.0,
-                    backgroundImage: NetworkImage(
-                        _photo),
+                    backgroundImage: NetworkImage(_photo),
                     backgroundColor: Colors.transparent,
                   )
                 ])
