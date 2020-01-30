@@ -40,12 +40,12 @@ class BookingsState extends State<BookingsPage> {
       });
 
       widget.userDB.getUserName(widget.userId).then((name) {
-        _saveName(name + '!');
+        _saveName(name);
       });
 
       _getName().then((name) {
         setState(() {
-          _name = (name != null ? name : "");
+          _name = (name != null ? name + '!' : "");
         });
       });
     });
