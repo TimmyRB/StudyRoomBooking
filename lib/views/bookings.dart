@@ -1,7 +1,6 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'dart:math';
 import 'package:StudyRoomBooking/firebase/user.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +21,6 @@ class BookingsPage extends StatefulWidget {
 
 class BookingsState extends State<BookingsPage> {
   CalendarController _calendarController;
-  final _random = new Random();
   String _name = "";
   String _photo = "https://ui-avatars.com/api/?name=No+User";
 
