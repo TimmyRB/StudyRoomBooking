@@ -1,6 +1,7 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:StudyRoomBooking/widgets/fields.dart';
 import 'package:StudyRoomBooking/widgets/buttons.dart';
@@ -13,14 +14,28 @@ class BookPopup extends StatefulWidget {
 }
 
 class BookPopupState extends State<BookPopup> {
+  TextEditingController _titleController = new TextEditingController();
+
   @override
   void initState() {
     super.initState();
+
+    _getName().then((name) {
+      setState(() {
+        _titleController.text = (name != null ? name + "'s Booking" : "");
+      });
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<String> _getName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String n = prefs.getString('name');
+    return n;
   }
 
   @override
@@ -51,6 +66,7 @@ class BookPopupState extends State<BookPopup> {
 
                         ),
                         TitleField(
+                          controller: _titleController,
                           label: 'Booking Title',
                           obscureText: false,
                           autoCorrect: true,
@@ -87,7 +103,7 @@ class BookPopupState extends State<BookPopup> {
                             context: context,
                             label: 'Room',
                             icon: Icons.room,
-                            infoLabel: 'Doesn\'t Matter'),
+                            infoLabel: 'Any'),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
@@ -99,14 +115,14 @@ class BookPopupState extends State<BookPopup> {
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
-                        // BookOptionButton(
-                        //     context: context,
-                        //     label: 'Tag colour',
-                        //     icon: Icons.crop_square,
-                        //     infoLabel: '',
-                        //     iconColor: Colors.red),
+                        BookOptionButton(
+                            context: context,
+                            label: 'Tag colour',
+                            icon: Icons.crop_square,
+                            infoLabel: '',
+                            iconColor: Colors.red),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25),
+                            height: MediaQuery.of(context).size.height * 0.20),
                       ],
                     ),
                   ))),
@@ -124,7 +140,7 @@ class BookPopupState extends State<BookPopup> {
                         Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Icon(Icons.book, color: Colors.white, size: 20),
+                              Icon(Icons.check_circle, color: Colors.white, size: 20),
                               SizedBox(width: 10),
                               Text('Confirm Booking',
                                   style: TextStyle(
