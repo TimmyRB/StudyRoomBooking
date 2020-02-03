@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class BaseBooker {
-  Future<void> createBooking(String userId, String roomId, String title, Timestamp startTime, Timestamp endTime, List<String> party);
+  Future<void> createBooking(String userId, String roomId, String title, int startTime, int endTime, List<String> party);
 
   // Future<void> getBooking(String bookingPath); // Get a Specific Booking
 
@@ -18,10 +18,10 @@ class Booker implements BaseBooker {
   final String institute = 'Sheridan';
   final String campus = 'Trafalgar';
 
-  Future<void> createBooking(String userId, String roomId, String title, Timestamp startTime, Timestamp endTime, List<String> party) async {
+  Future<void> createBooking(String userId, String roomId, String title, int startTime, int endTime, List<String> party) async {
     await dbRef.collection('Institutions/$institute/Campuses/$campus/Rooms/$roomId/Bookings').add({
-      'start': startTime,
-      'end': endTime,
+      'start': Timestamp.fromMillisecondsSinceEpoch(startTime),
+      'end': Timestamp.fromMillisecondsSinceEpoch(endTime),
       'ownerId': userId,
       'title': title,
       'party': party

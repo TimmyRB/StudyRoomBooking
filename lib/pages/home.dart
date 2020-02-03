@@ -4,6 +4,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
 import 'package:StudyRoomBooking/firebase/user.dart';
+import 'package:StudyRoomBooking/firebase/book.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/views/bookings.dart';
@@ -12,11 +13,18 @@ import 'package:StudyRoomBooking/views/settings.dart';
 import 'package:StudyRoomBooking/popups/bookPopup.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.logoutCallback, this.userDB})
+  HomePage(
+      {Key key,
+      this.auth,
+      this.userId,
+      this.logoutCallback,
+      this.userDB,
+      this.booker})
       : super(key: key);
 
   final BaseAuth auth;
   final BaseUser userDB;
+  final BaseBooker booker;
   final VoidCallback logoutCallback;
   final String userId;
 
@@ -39,7 +47,8 @@ class HomeState extends State<HomePage> {
     ]);
 
     _views = [
-      BookingsPage(userId: widget.userId, userDB: widget.userDB, auth: widget.auth),
+      BookingsPage(
+          userId: widget.userId, userDB: widget.userDB, auth: widget.auth),
       QRPage(),
       SettingsPage(userId: widget.userId, logoutCallback: widget.logoutCallback)
     ];
@@ -50,7 +59,9 @@ class HomeState extends State<HomePage> {
           Future.delayed(Duration.zero, () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => BookPopup()),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BookPopup(booker: widget.booker, userId: widget.userId)),
             );
           });
         },

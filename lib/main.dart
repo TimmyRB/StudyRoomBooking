@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
 import 'package:StudyRoomBooking/firebase/user.dart';
+import 'package:StudyRoomBooking/firebase/book.dart';
 
 // Pages
 import 'package:StudyRoomBooking/pages/home.dart';
@@ -47,23 +48,27 @@ class Main extends StatelessWidget {
                   fontWeight: FontWeight.bold),
               subhead:
                   TextStyle(color: new Color(4290625220), fontSize: 33.0))),
-      home: new Root(auth: new Auth(), userDB: new User()),
+      home: new Root(
+        auth: new Auth(),
+        userDB: new User(),
+        booker: new Booker(),
+      ),
     );
   }
 }
 
 class Root extends StatefulWidget {
-  Root({Key key, this.auth, this.userDB}) : super(key: key);
+  Root({Key key, this.auth, this.userDB, this.booker}) : super(key: key);
 
   final BaseAuth auth;
   final BaseUser userDB;
+  final BaseBooker booker;
 
   @override
   RootState createState() => RootState();
 }
 
 class RootState extends State<Root> {
-  
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   String _userId = "";
 
@@ -130,20 +135,19 @@ class RootState extends State<Root> {
         break;
       case AuthStatus.NOT_LOGGED_IN:
         return new LoginPage(
-          auth: widget.auth,
-          loginCallback: loginCallback,
-          signupCallback: signupCallback,
-          userDB: widget.userDB
-        );
+            auth: widget.auth,
+            loginCallback: loginCallback,
+            signupCallback: signupCallback,
+            userDB: widget.userDB);
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
           return new HomePage(
-            userId: _userId,
-            auth: widget.auth,
-            logoutCallback: logoutCallback,
-            userDB: widget.userDB
-          );
+              userId: _userId,
+              auth: widget.auth,
+              logoutCallback: logoutCallback,
+              userDB: widget.userDB,
+              booker: widget.booker);
         } else
           return buildWaitingScreen();
         break;

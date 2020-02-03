@@ -1,13 +1,18 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:StudyRoomBooking/firebase/book.dart';
 
 import 'package:StudyRoomBooking/widgets/fields.dart';
 import 'package:StudyRoomBooking/widgets/buttons.dart';
 
 class BookPopup extends StatefulWidget {
-  BookPopup({Key key}) : super(key: key);
+  BookPopup({Key key, this.booker, this.userId}) : super(key: key);
+
+  final BaseBooker booker;
+  final String userId;
 
   @override
   BookPopupState createState() => BookPopupState();
@@ -15,10 +20,13 @@ class BookPopup extends StatefulWidget {
 
 class BookPopupState extends State<BookPopup> {
   TextEditingController _titleController = new TextEditingController();
+  double _sliderVal;
 
   @override
   void initState() {
     super.initState();
+
+    _sliderVal = 0.5;
 
     _getName().then((name) {
       setState(() {
@@ -62,9 +70,7 @@ class BookPopupState extends State<BookPopup> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        CloseButton(
-
-                        ),
+                        CloseButton(),
                         TitleField(
                           controller: _titleController,
                           label: 'Booking Title',
@@ -91,11 +97,52 @@ class BookPopupState extends State<BookPopup> {
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
-                        BookOptionButton(
-                            context: context,
-                            label: 'Duration',
-                            icon: Icons.access_alarm,
-                            infoLabel: 'Doesn\'t Matter'),
+                        ButtonTheme(
+                          buttonColor: Color(4294967295),
+                          disabledColor: Color(4294967295),
+                          padding: EdgeInsets.only(left: 15, right: 5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          minWidth: double.infinity,
+                          height: 46.0,
+                          child: RaisedButton(
+                              elevation: 0.0,
+                              highlightElevation: 0.0,
+                              onPressed: null,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(Icons.alarm,
+                                          size: 20, color: Colors.black),
+                                      SizedBox(width: 10),
+                                      Text("Duration",
+                                          style: TextStyle(
+                                              color: new Color(4280164664),
+                                              fontSize: 17.0,
+                                              fontFamily: 'Calibri'))
+                                    ],
+                                  ),
+                                  Slider.adaptive(
+                                    value: _sliderVal,
+                                    label: _sliderVal.toString() + " hrs",
+                                    max: 5,
+                                    min: 0.5,
+                                    divisions: 9,
+                                    onChanged: (newVal) {
+                                      setState(() {
+                                        _sliderVal = newVal;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              )),
+                        ),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
@@ -140,7 +187,8 @@ class BookPopupState extends State<BookPopup> {
                         Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Icon(Icons.check_circle, color: Colors.white, size: 20),
+                              Icon(Icons.check_circle,
+                                  color: Colors.white, size: 20),
                               SizedBox(width: 10),
                               Text('Confirm Booking',
                                   style: TextStyle(
@@ -151,7 +199,26 @@ class BookPopupState extends State<BookPopup> {
                             ]),
                         FloatingActionButton(
                           child: Icon(Icons.chevron_right),
-                          onPressed: () {},
+                          onPressed: () {
+                            int hours = _sliderVal.floor();
+                            double tmpMins = (_sliderVal - hours) * 60;
+                            int mins = 0;
+
+                            if (tmpMins != 0) mins = 30;
+
+                            widget.booker.createBooking(
+                                widget.userId,
+                                "MwciM0sVWoiUEr8k3xe1",
+                                _titleController.text,
+                                new DateTime.now().millisecondsSinceEpoch,
+                                new DateTime.now()
+                                    .add(new Duration(
+                                        hours: hours, minutes: mins))
+                                    .millisecondsSinceEpoch,
+                                [widget.userId]);
+
+                            Navigator.pop(context);
+                          },
                         )
                       ],
                     ),
