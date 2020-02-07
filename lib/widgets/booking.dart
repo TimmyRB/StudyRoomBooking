@@ -6,34 +6,58 @@ Widget Booking(
     final DateTime end,
     final String roomName,
     final int chairs,
-    final int screens}) {
+    final int screens,
+    final int partySize}) {
   return Card(
-    color: Colors.white,
-    child: Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[Text(title)],
-        ),
-        Row(children: <Widget>[
-          Text(start.hour.toString() +
-              ':' +
-              start.minute.toString() +
-              ' - ' +
-              end.hour.toString() +
-              ':' +
-              end.minute.toString() +
-              ' | ' +
-              roomName)
-        ]),
-        Row(
+    elevation: 0.0,
+      color: Colors.white,
+      child: Container(
+        padding: EdgeInsets.all(15),
+        child: Column(
           children: <Widget>[
-            Text(chairs.toString()),
-            Icon(Icons.event_seat),
-            Text(screens.toString()),
-            Icon(Icons.tv)
+            Row(
+              children: <Widget>[
+                Text(title,
+                    softWrap: true,
+                    style: TextStyle(
+                        color: new Color(4280164664),
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
+            Row(children: <Widget>[
+              Text(
+                  start.hour.toString() +
+                      ':' +
+                      start.minute.toString() +
+                      ' - ' +
+                      end.hour.toString() +
+                      ':' +
+                      end.minute.toString() +
+                      ' | ' +
+                      roomName,
+                  style:
+                      TextStyle(color: new Color(4290625220), fontSize: 16.0))
+            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Text(chairs.toString(),
+                    style: TextStyle(
+                        color: new Color(4290625220), fontSize: 16.0)),
+                Icon(Icons.event_seat, color: new Color(4290625220), size: 18),
+                Text(' • ' + screens.toString(),
+                    style: TextStyle(
+                        color: new Color(4290625220), fontSize: 16.0)),
+                Icon(Icons.tv, color: new Color(4290625220), size: 18),
+                Text(' • ' + partySize.toString(),
+                    style: TextStyle(
+                        color: new Color(4290625220), fontSize: 16.0)),
+                Icon(Icons.people, color: new Color(4290625220), size: 18)
+              ],
+            )
           ],
-        )
-      ],
-    ),
-  );
+        ),
+      ));
 }

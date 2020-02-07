@@ -109,9 +109,7 @@ class BookingsState extends State<BookingsPage> {
             margin: EdgeInsets.only(bottom: 5.0),
             child: TableCalendar(
               onDaySelected: (DateTime date, List<dynamic> list) {
-                widget.booker
-                    .getMyBookings(widget.userId, date)
-                    .then((list) {
+                widget.booker.getMyBookings(widget.userId, date).then((list) {
                   setState(() {
                     _bookings = ListView(children: list);
                   });
@@ -153,7 +151,7 @@ class BookingsState extends State<BookingsPage> {
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15)),
                 ),
-                child: _bookings,
+                child: Container(padding: EdgeInsets.all(15), child: _bookings),
               ))
         ],
       ),

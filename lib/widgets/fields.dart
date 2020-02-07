@@ -39,6 +39,7 @@ Widget TitleField(
     final bool autoCorrect,
     final bool obscureText}) {
   return TextFormField(
+    maxLength: 30,
     controller: controller,
     autocorrect: autoCorrect,
     obscureText: obscureText,

@@ -89,12 +89,16 @@ class Booker implements BaseBooker {
             end: end,
             roomName: room['name'],
             chairs: room['chairs'],
-            screens: room['screens']));
+            screens: room['screens'],
+            partySize: doc.data['party'].length));
       });
     });
 
-    await Future.delayed(new Duration(seconds: 1));
+    await Future.delayed(new Duration(milliseconds: 500));
 
+    if (bookingWidgets.length == 0)
+      return [NotFound()];
+    else
     return bookingWidgets;
   }
 }
