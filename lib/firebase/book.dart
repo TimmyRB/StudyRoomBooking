@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:StudyRoomBooking/widgets/booking.dart';
+
+import '../widgets/notFound.dart';
 
 abstract class BaseBooker {
   Future<void> createBooking(String userId, String roomId, String title,
@@ -8,7 +11,7 @@ abstract class BaseBooker {
 
   // Future<void> getBooking(String bookingPath); // Get a Specific Booking
 
-  Future<Widget> getMyBookings(String userId);
+  Future<List<Widget>> getMyBookings(String userId, DateTime date);
 
   // Future<void> getRoomBookings(String roomId); // Get all bookings for a room
 
@@ -39,31 +42,59 @@ class Booker implements BaseBooker {
   }
 
   @override
-  Future<Widget> getMyBookings(String userId) async {
-    List<dynamic> bookings =
-        await dbRef.collection('Users').document(userId).get().then((doc) {
+  Future<List<Widget>> getMyBookings(String userId, DateTime date) async {
+    List<Widget> bookingWidgets = [];
+
+    List<dynamic> bookings = await dbRef
+        .collection('Users')
+        .document(userId)
+        .get()
+        .then((doc) async {
       if (!doc.exists) return [];
 
       if (!doc.data.containsKey('bookings')) return [];
 
-      return doc.data['bookings'];
+      return await doc.data['bookings'];
     });
 
     bookings.forEach((booking) {
-      booking.get().then((doc) {
+      booking.get().then((doc) async {
         if (!doc.exists) return;
 
-        DateTime end = doc.data['end'].toDate();
+        DateTime end = await doc.data['end'].toDate();
 
         if (DateTime.now().compareTo(end) >= 0) {
-          booking.delete();
-          dbRef.collection('Users').document(userId).updateData({
+          await booking.delete();
+          await dbRef.collection('Users').document(userId).updateData({
             'bookings': FieldValue.arrayRemove([booking])
           });
+
           return;
         }
+
+        DateTime start = await doc.data['start'].toDate();
+
+        if (start.day != date.day ||
+            start.month != date.month ||
+            start.year != date.year) return;
+
+        DocumentReference roomRef = await doc.reference.parent().parent();
+        var room = await roomRef.get().then((doc) {
+          return doc.data;
+        });
+
+        bookingWidgets.add(Booking(
+            title: doc.data['title'],
+            start: start,
+            end: end,
+            roomName: room['name'],
+            chairs: room['chairs'],
+            screens: room['screens']));
       });
     });
-    return null;
+
+    await Future.delayed(new Duration(seconds: 1));
+
+    return bookingWidgets;
   }
 }

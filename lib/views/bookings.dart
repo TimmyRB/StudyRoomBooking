@@ -26,21 +26,24 @@ class BookingsState extends State<BookingsPage> {
   CalendarController _calendarController;
   String _name = "";
   String _photo = "https://ui-avatars.com/api/?name=No+User";
+  Widget _bookings = NotFound();
 
   @override
   void initState() {
     super.initState();
     _calendarController = new CalendarController();
 
-    widget.booker.getMyBookings(widget.userId);
+    widget.booker.getMyBookings(widget.userId, DateTime.now()).then((list) {
+      setState(() {
+        _bookings = ListView(children: list);
+      });
+    });
 
-    Future(() async {
-      widget.auth.getCurrentUser().then((user) {
-        setState(() {
-          _photo = (user.photoUrl != null
-              ? user.photoUrl
-              : "https://ui-avatars.com/api/?name=No+User");
-        });
+    widget.auth.getCurrentUser().then((user) {
+      setState(() {
+        _photo = (user.photoUrl != null
+            ? user.photoUrl
+            : "https://ui-avatars.com/api/?name=No+User");
       });
 
       widget.userDB.getUserName(widget.userId).then((name) {
@@ -105,6 +108,15 @@ class BookingsState extends State<BookingsPage> {
           Container(
             margin: EdgeInsets.only(bottom: 5.0),
             child: TableCalendar(
+              onDaySelected: (DateTime date, List<dynamic> list) {
+                widget.booker
+                    .getMyBookings(widget.userId, date)
+                    .then((list) {
+                  setState(() {
+                    _bookings = ListView(children: list);
+                  });
+                });
+              },
               startDay: DateTime.now(),
               endDay: DateTime.now().add(new Duration(days: 14)),
               startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -141,7 +153,7 @@ class BookingsState extends State<BookingsPage> {
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15)),
                 ),
-                child: NotFound(),
+                child: _bookings,
               ))
         ],
       ),
