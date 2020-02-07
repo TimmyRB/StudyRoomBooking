@@ -52,7 +52,7 @@ class HomeState extends State<HomePage> {
           userDB: widget.userDB,
           auth: widget.auth,
           booker: widget.booker),
-      QRPage(),
+      QRPage(booker: widget.booker),
       SettingsPage(userId: widget.userId, logoutCallback: widget.logoutCallback)
     ];
 

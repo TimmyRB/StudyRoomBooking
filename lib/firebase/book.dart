@@ -13,7 +13,8 @@ abstract class BaseBooker {
 
   Future<List<Widget>> getMyBookings(String userId, DateTime date);
 
-  // Future<void> getRoomBookings(String roomId); // Get all bookings for a room
+  Future<List<Widget>> getRoomBookings(
+      String roomId); // Get all bookings for a room
 
   // Future<void> getCampusBookings(); // Get all bookings for current campus
 }
@@ -99,6 +100,50 @@ class Booker implements BaseBooker {
     if (bookingWidgets.length == 0)
       return [NotFound()];
     else
-    return bookingWidgets;
+      return bookingWidgets;
+  }
+
+  @override
+  Future<List<Widget>> getRoomBookings(String roomId) async {
+    List<Widget> bookingWidgets = [];
+
+    List<DocumentSnapshot> bookingDocs = await dbRef
+        .collection('Institutions/$institute/Campuses/$campus/Rooms/$roomId/Bookings')
+        .getDocuments()
+        .then((data) {
+      return data.documents;
+    });
+
+    bookingDocs.forEach((booking) async {
+      if (!booking.exists) return;
+
+      DateTime end = await booking.data['end'].toDate();
+      DateTime start = await booking.data['start'].toDate();
+
+      if (start.day != DateTime.now().day ||
+          start.month != DateTime.now().month ||
+          start.year != DateTime.now().year) return;
+
+      DocumentReference roomRef = booking.reference.parent().parent();
+      var room = await roomRef.get().then((doc) {
+        return doc.data;
+      });
+
+      bookingWidgets.add(Booking(
+          title: booking.data['title'],
+          start: start,
+          end: end,
+          roomName: room['name'],
+          chairs: room['chairs'],
+          screens: room['screens'],
+          partySize: booking.data['party'].length));
+    });
+
+    await Future.delayed(new Duration(seconds: 1));
+
+    if (bookingWidgets.length == 0)
+      return [NotFound()];
+    else
+      return bookingWidgets;
   }
 }
