@@ -48,7 +48,10 @@ class HomeState extends State<HomePage> {
 
     _views = [
       BookingsPage(
-          userId: widget.userId, userDB: widget.userDB, auth: widget.auth),
+          userId: widget.userId,
+          userDB: widget.userDB,
+          auth: widget.auth,
+          booker: widget.booker),
       QRPage(),
       SettingsPage(userId: widget.userId, logoutCallback: widget.logoutCallback)
     ];

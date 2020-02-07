@@ -4,16 +4,18 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:StudyRoomBooking/firebase/user.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
+import 'package:StudyRoomBooking/firebase/book.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/widgets/notFound.dart';
 
 class BookingsPage extends StatefulWidget {
-  BookingsPage({Key key, this.userId, this.userDB, this.auth})
+  BookingsPage({Key key, this.userId, this.userDB, this.auth, this.booker})
       : super(key: key);
 
   final BaseUser userDB;
   final BaseAuth auth;
+  final BaseBooker booker;
   final String userId;
 
   @override
@@ -29,6 +31,8 @@ class BookingsState extends State<BookingsPage> {
   void initState() {
     super.initState();
     _calendarController = new CalendarController();
+
+    widget.booker.getMyBookings(widget.userId);
 
     Future(() async {
       widget.auth.getCurrentUser().then((user) {
