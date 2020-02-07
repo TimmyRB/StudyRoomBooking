@@ -151,7 +151,7 @@ class BookingsState extends State<BookingsPage> {
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15)),
                 ),
-                child: Container(padding: EdgeInsets.all(15), child: _bookings),
+                child: Container(padding: EdgeInsets.only(top: 15, left: 15, right: 15), child: _bookings),
               ))
         ],
       ),
