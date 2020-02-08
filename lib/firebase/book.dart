@@ -133,7 +133,7 @@ class Booker implements BaseBooker {
           title: booking.data['title'],
           start: start,
           end: end,
-          roomName: room['name'],
+          roomName: room['location'],
           chairs: room['chairs'],
           screens: room['screens'],
           partySize: booking.data['party'].length));
