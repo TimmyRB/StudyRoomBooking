@@ -115,17 +115,23 @@ class BookingsState extends State<BookingsPage> {
                   });
                 });
               },
+              availableGestures: AvailableGestures.none,
               startDay: DateTime.now(),
-              endDay: DateTime.now().add(new Duration(days: 14)),
-              startingDayOfWeek: StartingDayOfWeek.sunday,
+              endDay: DateTime.now().add(new Duration(days: 6)),
+              startingDayOfWeek: StartingDayOfWeek.values[DateTime.now().weekday - 1],
               initialCalendarFormat: CalendarFormat.week,
               availableCalendarFormats: {CalendarFormat.week: 'Week'},
               calendarController: _calendarController,
               headerStyle: HeaderStyle(
                 titleTextStyle: Theme.of(context).textTheme.headline,
+                rightChevronMargin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+                rightChevronPadding: EdgeInsets.all(0.0),
                 rightChevronIcon:
-                    Icon(Icons.chevron_right, color: Colors.white),
-                leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white),
+                    Icon(null, color: Colors.transparent, size: 0),
+                leftChevronIcon: Icon(null, color: Colors.transparent, size: 0),
+                leftChevronMargin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+                leftChevronPadding: EdgeInsets.all(0.0),
+                headerPadding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 8.0)
               ),
               daysOfWeekStyle: DaysOfWeekStyle(
                   weekdayStyle: Theme.of(context).textTheme.display3,
