@@ -6,17 +6,20 @@ class NotFound extends StatelessWidget {
     return new Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              child: new Image.asset('images/cat.png',
-                  height: 85.0, width: 150.0, fit: BoxFit.fitWidth),
-            ),
-            Text("nothing to see here",
-                softWrap: true, style: Theme.of(context).textTheme.display2)
-          ],
-        )
+        Text("🔎",
+            softWrap: true,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: new Color(4283848810),
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold)),
+        Text("   Couldn't find any bookings,\n   try creating one!",
+            softWrap: true,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                color: new Color(4283848810),
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold))
       ],
     );
   }
