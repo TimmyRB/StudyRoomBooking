@@ -26,7 +26,7 @@ class BookingsState extends State<BookingsPage> {
   CalendarController _calendarController;
   String _name = "";
   String _photo = "https://ui-avatars.com/api/?name=No+User";
-  Widget _bookings = NotFound();
+  Widget _bookings;
 
   @override
   void initState() {

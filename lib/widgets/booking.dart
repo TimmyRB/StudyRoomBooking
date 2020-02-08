@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Widget Booking(
     {final String title,
@@ -9,7 +10,7 @@ Widget Booking(
     final int screens,
     final int partySize}) {
   return Card(
-    elevation: 0.0,
+      elevation: 0.0,
       color: Colors.white,
       child: Container(
         padding: EdgeInsets.all(15),
@@ -27,15 +28,7 @@ Widget Booking(
             ),
             Row(children: <Widget>[
               Text(
-                  start.hour.toString() +
-                      ':' +
-                      start.minute.toString() +
-                      ' - ' +
-                      end.hour.toString() +
-                      ':' +
-                      end.minute.toString() +
-                      ' | ' +
-                      roomName,
+                  DateFormat.Hm().format(start) + " - " + DateFormat.Hm().format(end) + " | " + roomName,
                   style:
                       TextStyle(color: new Color(4290625220), fontSize: 16.0))
             ]),
