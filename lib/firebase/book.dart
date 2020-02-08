@@ -7,7 +7,8 @@ import '../widgets/notFound.dart';
 
 abstract class BaseBooker {
   Future<void> createBooking(String userId, String roomId, String title,
-      int startTime, int endTime, List<String> party);
+      int startTime, int endTime, List<String> party,
+      {MaterialColor color});
 
   // Future<void> getBooking(String bookingPath); // Get a Specific Booking
 
@@ -26,7 +27,8 @@ class Booker implements BaseBooker {
 
   @override
   Future<void> createBooking(String userId, String roomId, String title,
-      int startTime, int endTime, List<String> party) async {
+      int startTime, int endTime, List<String> party,
+      {MaterialColor color}) async {
     DocumentReference docRef = await dbRef
         .collection(
             'Institutions/$institute/Campuses/$campus/Rooms/$roomId/Bookings')
@@ -35,7 +37,8 @@ class Booker implements BaseBooker {
       'end': Timestamp.fromMillisecondsSinceEpoch(endTime),
       'ownerId': userId,
       'title': title,
-      'party': party
+      'party': party,
+      'color': (color.value != null ? color.value : Colors.red.value)
     });
     dbRef.collection('Users').document(userId).updateData({
       'bookings': FieldValue.arrayUnion([docRef])
@@ -91,7 +94,10 @@ class Booker implements BaseBooker {
             roomName: room['name'],
             chairs: room['chairs'],
             screens: room['screens'],
-            partySize: doc.data['party'].length));
+            partySize: doc.data['party'].length,
+            color: new Color((doc.data['color'] != null
+                ? doc.data['color']
+                : Colors.red.value))));
       });
     });
 
@@ -108,7 +114,8 @@ class Booker implements BaseBooker {
     List<Widget> bookingWidgets = [];
 
     List<DocumentSnapshot> bookingDocs = await dbRef
-        .collection('Institutions/$institute/Campuses/$campus/Rooms/$roomId/Bookings')
+        .collection(
+            'Institutions/$institute/Campuses/$campus/Rooms/$roomId/Bookings')
         .getDocuments()
         .then((data) {
       return data.documents;

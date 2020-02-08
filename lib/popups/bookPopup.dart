@@ -21,6 +21,13 @@ class BookPopup extends StatefulWidget {
 class BookPopupState extends State<BookPopup> {
   TextEditingController _titleController = new TextEditingController();
   double _sliderVal;
+  MaterialColor _tag = Colors.red;
+  Map<String, MaterialColor> tags = {
+    'red': Colors.red,
+    'green': Colors.green,
+    'yellow': Colors.yellow,
+    'blue': Colors.blue
+  };
 
   @override
   void initState() {
@@ -162,12 +169,85 @@ class BookPopupState extends State<BookPopup> {
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
-                        BookOptionButton(
-                            context: context,
-                            label: 'Tag colour',
-                            icon: Icons.crop_square,
-                            infoLabel: '',
-                            iconColor: Colors.red),
+                        ButtonTheme(
+                          buttonColor: Color(4294967295),
+                          disabledColor: Color(4294967295),
+                          padding: EdgeInsets.only(left: 15, right: 5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          minWidth: double.infinity,
+                          height: 46.0,
+                          child: RaisedButton(
+                              elevation: 0.0,
+                              highlightElevation: 0.0,
+                              onPressed: null,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(Icons.color_lens,
+                                          size: 20, color: _tag),
+                                      SizedBox(width: 10),
+                                      Text("Tag Colour",
+                                          style: TextStyle(
+                                              color: new Color(4280164664),
+                                              fontSize: 17.0,
+                                              fontFamily: 'Calibri'))
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                    Radio(
+                                      value: tags['red'],
+                                      groupValue: _tag,
+                                      activeColor: tags['red'],
+                                      onChanged: (MaterialColor c) {
+                                        setState(() {
+                                          _tag = c;
+                                        });
+                                      },
+                                    ),
+                                    Radio(
+                                      value: tags['green'],
+                                      groupValue: _tag,
+                                      activeColor: tags['green'],
+                                      onChanged: (MaterialColor c) {
+                                        setState(() {
+                                          _tag = c;
+                                        });
+                                      },
+                                    ),
+                                    Radio(
+                                      value: tags['yellow'],
+                                      groupValue: _tag,
+                                      activeColor: tags['yellow'],
+                                      onChanged: (MaterialColor c) {
+                                        setState(() {
+                                          _tag = c;
+                                        });
+                                      },
+                                    ),
+                                    Radio(
+                                      value: tags['blue'],
+                                      groupValue: _tag,
+                                      activeColor: tags['blue'],
+                                      onChanged: (MaterialColor c) {
+                                        setState(() {
+                                          _tag = c;
+                                        });
+                                      },
+                                    )
+                                  ]),
+                                ],
+                              )),
+                        ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.20),
                       ],
@@ -215,7 +295,7 @@ class BookPopupState extends State<BookPopup> {
                                     .add(new Duration(
                                         hours: hours, minutes: mins))
                                     .millisecondsSinceEpoch,
-                                [widget.userId]);
+                                [widget.userId], color: _tag);
 
                             Navigator.pop(context);
                           },

@@ -8,7 +8,8 @@ Widget Booking(
     final String roomName,
     final int chairs,
     final int screens,
-    final int partySize}) {
+    final int partySize,
+    final Color color}) {
   return Card(
       elevation: 0.0,
       color: Colors.white,
@@ -18,6 +19,11 @@ Widget Booking(
           children: <Widget>[
             Row(
               children: <Widget>[
+                Text("• ",
+                    style: TextStyle(
+                        color: (color != null ? color : Colors.red),
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold)),
                 Text(title,
                     softWrap: true,
                     style: TextStyle(
