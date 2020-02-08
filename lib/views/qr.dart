@@ -39,7 +39,7 @@ class QRState extends State<QRPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                  flex: 10,
+                  flex: 9,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       boxShadow: <BoxShadow>[BoxShadow(blurRadius: 6.0)],
