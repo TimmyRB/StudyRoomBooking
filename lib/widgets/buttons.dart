@@ -17,10 +17,11 @@ Widget AuthButton({final BuildContext context, final VoidCallback onPressed, fin
   );
 }
 
-Widget BookOptionButton({final BuildContext context, final VoidCallback onPressed, final String label, final IconData icon, final String infoLabel, final Color iconColor}) {
+Widget BookOptionButton({final BuildContext context, final VoidCallback onPressed, final String label, final IconData icon, final Color iconColor, final rightWidget}) {
 
   return ButtonTheme(
     buttonColor: Color(4294967295),
+    disabledColor: Color(4294967295),
     padding: EdgeInsets.only(left: 15, right: 5),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -30,27 +31,19 @@ Widget BookOptionButton({final BuildContext context, final VoidCallback onPresse
     child: RaisedButton(
       elevation: 0.0,
       highlightElevation: 0.0,
-      onPressed: () async {
-        onPressed();
-      },
+      onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Icon(icon, size: 20, color: iconColor),
+              Icon(icon, size: 20, color: (iconColor != null ? iconColor : Colors.black)),
               SizedBox(width: 10),
               Text(label, style: TextStyle(color: new Color(4280164664), fontSize: 17.0, fontFamily: 'Calibri'))
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Text(infoLabel, style: TextStyle(color: new Color(4280164664), fontSize: 16.0, fontFamily: 'Calibri', fontWeight: FontWeight.bold)),
-              Icon(Icons.chevron_right)
-            ],
-          )
+          rightWidget
         ],
       )
     ),
