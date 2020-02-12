@@ -1,7 +1,6 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:StudyRoomBooking/firebase/book.dart';
 
@@ -29,9 +28,40 @@ class BookPopupState extends State<BookPopup> {
     'blue': Colors.blue
   };
 
+  TimeOfDay roundUp(TimeOfDay tod, int roundTo) {
+    if (tod.minute % roundTo == 0) return tod;
+
+    while (tod.minute % roundTo != 0) {
+      tod = TimeOfDay(hour: tod.hour, minute: tod.minute + 1);
+    }
+
+    return tod;
+  }
+
+  List<TimeOfDay> _times = [];
+  TimeOfDay _currTime;
+
   @override
   void initState() {
     super.initState();
+
+    TimeOfDay rounded = roundUp(TimeOfDay.now(), 30);
+    _currTime = rounded;
+    int h = rounded.hour;
+    int m = rounded.minute;
+
+    _times = [];
+
+    while (!(h == 24 && m == 0)) {
+      _times.add(TimeOfDay(hour: h, minute: m));
+
+      if (m == 30) {
+        h++;
+        m = 0;
+      } else {
+        m = 30;
+      }
+    }
 
     _sliderVal = 0.5;
 
@@ -91,8 +121,18 @@ class BookPopupState extends State<BookPopup> {
                             context: context,
                             label: 'Date',
                             icon: Icons.calendar_today,
-                            infoLabel: DateFormat('MMM dd, yyyy')
-                                .format(DateTime.now())),
+                            rightWidget: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Text(DateFormat.MMMEd().format(DateTime.now()),
+                                    style: TextStyle(
+                                        color: new Color(4280164664),
+                                        fontSize: 16.0,
+                                        fontFamily: 'Calibri',
+                                        fontWeight: FontWeight.bold)),
+                                Icon(Icons.chevron_right)
+                              ],
+                            )),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
@@ -100,56 +140,39 @@ class BookPopupState extends State<BookPopup> {
                             context: context,
                             label: 'Time',
                             icon: Icons.access_time,
-                            infoLabel: 'ASAP'),
+                            rightWidget: DropdownButton(
+                              value: _currTime,
+                              items: _times.map((TimeOfDay tod) {
+                                return new DropdownMenuItem<TimeOfDay>(
+                                  value: tod,
+                                  child: Text(DateFormat.Hm().format(new DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, tod.hour, tod.minute)), style: TextStyle(color: new Color(4280164664), fontSize: 17.0, fontFamily: 'Calibri', fontWeight: FontWeight.bold))
+                                );
+                              }).toList(), 
+                              onChanged: (newTOD) {
+                                setState(() {
+                                  _currTime = newTOD;
+                                });
+                              },
+                              )),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
-                        ButtonTheme(
-                          buttonColor: Color(4294967295),
-                          disabledColor: Color(4294967295),
-                          padding: EdgeInsets.only(left: 15, right: 5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          minWidth: double.infinity,
-                          height: 46.0,
-                          child: RaisedButton(
-                              elevation: 0.0,
-                              highlightElevation: 0.0,
-                              onPressed: null,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(Icons.alarm,
-                                          size: 20, color: Colors.black),
-                                      SizedBox(width: 10),
-                                      Text("Duration",
-                                          style: TextStyle(
-                                              color: new Color(4280164664),
-                                              fontSize: 17.0,
-                                              fontFamily: 'Calibri'))
-                                    ],
-                                  ),
-                                  Slider.adaptive(
-                                    value: _sliderVal,
-                                    label: _sliderVal.toString() + " hrs",
-                                    max: 5,
-                                    min: 0.5,
-                                    divisions: 9,
-                                    onChanged: (newVal) {
-                                      setState(() {
-                                        _sliderVal = newVal;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              )),
-                        ),
+                        BookOptionButton(
+                            context: context,
+                            label: 'Duration',
+                            icon: Icons.alarm,
+                            rightWidget: Slider.adaptive(
+                              value: _sliderVal,
+                              label: _sliderVal.toString() + " hrs",
+                              max: 5,
+                              min: 0.5,
+                              divisions: 9,
+                              onChanged: (newVal) {
+                                setState(() {
+                                  _sliderVal = newVal;
+                                });
+                              },
+                            )),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
@@ -157,7 +180,18 @@ class BookPopupState extends State<BookPopup> {
                             context: context,
                             label: 'Room',
                             icon: Icons.room,
-                            infoLabel: 'Any'),
+                            rightWidget: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Text('Any',
+                                    style: TextStyle(
+                                        color: new Color(4280164664),
+                                        fontSize: 16.0,
+                                        fontFamily: 'Calibri',
+                                        fontWeight: FontWeight.bold)),
+                                Icon(Icons.chevron_right)
+                              ],
+                            )),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
@@ -165,89 +199,71 @@ class BookPopupState extends State<BookPopup> {
                             context: context,
                             label: 'Attendees',
                             icon: Icons.people,
-                            infoLabel: '1'),
+                            rightWidget: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Text('1',
+                                    style: TextStyle(
+                                        color: new Color(4280164664),
+                                        fontSize: 16.0,
+                                        fontFamily: 'Calibri',
+                                        fontWeight: FontWeight.bold)),
+                                Icon(Icons.chevron_right)
+                              ],
+                            )),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
-                        ButtonTheme(
-                          buttonColor: Color(4294967295),
-                          disabledColor: Color(4294967295),
-                          padding: EdgeInsets.only(left: 15, right: 5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          minWidth: double.infinity,
-                          height: 46.0,
-                          child: RaisedButton(
-                              elevation: 0.0,
-                              highlightElevation: 0.0,
-                              onPressed: null,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                        BookOptionButton(
+                            context: context,
+                            label: 'Tag Colour',
+                            icon: Icons.crop_square,
+                            iconColor: _tag,
+                            rightWidget: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(Icons.color_lens,
-                                          size: 20, color: _tag),
-                                      SizedBox(width: 10),
-                                      Text("Tag Colour",
-                                          style: TextStyle(
-                                              color: new Color(4280164664),
-                                              fontSize: 17.0,
-                                              fontFamily: 'Calibri'))
-                                    ],
+                                  Radio(
+                                    value: tags['red'],
+                                    groupValue: _tag,
+                                    activeColor: tags['red'],
+                                    onChanged: (MaterialColor c) {
+                                      setState(() {
+                                        _tag = c;
+                                      });
+                                    },
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                    Radio(
-                                      value: tags['red'],
-                                      groupValue: _tag,
-                                      activeColor: tags['red'],
-                                      onChanged: (MaterialColor c) {
-                                        setState(() {
-                                          _tag = c;
-                                        });
-                                      },
-                                    ),
-                                    Radio(
-                                      value: tags['green'],
-                                      groupValue: _tag,
-                                      activeColor: tags['green'],
-                                      onChanged: (MaterialColor c) {
-                                        setState(() {
-                                          _tag = c;
-                                        });
-                                      },
-                                    ),
-                                    Radio(
-                                      value: tags['yellow'],
-                                      groupValue: _tag,
-                                      activeColor: tags['yellow'],
-                                      onChanged: (MaterialColor c) {
-                                        setState(() {
-                                          _tag = c;
-                                        });
-                                      },
-                                    ),
-                                    Radio(
-                                      value: tags['blue'],
-                                      groupValue: _tag,
-                                      activeColor: tags['blue'],
-                                      onChanged: (MaterialColor c) {
-                                        setState(() {
-                                          _tag = c;
-                                        });
-                                      },
-                                    )
-                                  ]),
-                                ],
-                              )),
-                        ),
+                                  Radio(
+                                    value: tags['green'],
+                                    groupValue: _tag,
+                                    activeColor: tags['green'],
+                                    onChanged: (MaterialColor c) {
+                                      setState(() {
+                                        _tag = c;
+                                      });
+                                    },
+                                  ),
+                                  Radio(
+                                    value: tags['yellow'],
+                                    groupValue: _tag,
+                                    activeColor: tags['yellow'],
+                                    onChanged: (MaterialColor c) {
+                                      setState(() {
+                                        _tag = c;
+                                      });
+                                    },
+                                  ),
+                                  Radio(
+                                    value: tags['blue'],
+                                    groupValue: _tag,
+                                    activeColor: tags['blue'],
+                                    onChanged: (MaterialColor c) {
+                                      setState(() {
+                                        _tag = c;
+                                      });
+                                    },
+                                  )
+                                ])),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.20),
                       ],
@@ -295,7 +311,8 @@ class BookPopupState extends State<BookPopup> {
                                     .add(new Duration(
                                         hours: hours, minutes: mins))
                                     .millisecondsSinceEpoch,
-                                [widget.userId], color: _tag);
+                                [widget.userId],
+                                color: _tag);
 
                             Navigator.pop(context);
                           },
