@@ -131,7 +131,7 @@ class BookingsState extends State<BookingsPage> {
                 leftChevronIcon: Icon(null, color: Colors.transparent, size: 0),
                 leftChevronMargin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
                 leftChevronPadding: EdgeInsets.all(0.0),
-                headerPadding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 8.0)
+                headerPadding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0)
               ),
               daysOfWeekStyle: DaysOfWeekStyle(
                   weekdayStyle: Theme.of(context).textTheme.display3,
