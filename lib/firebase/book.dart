@@ -78,9 +78,9 @@ class Booker implements BaseBooker {
 
         DateTime start = await doc.data['start'].toDate();
 
-        if (start.day != date.day ||
-            start.month != date.month ||
-            start.year != date.year) return;
+        if (end.day != date.day ||
+            end.month != date.month ||
+            end.year != date.year) return;
 
         DocumentReference roomRef = await doc.reference.parent().parent();
         var room = await roomRef.get().then((doc) {
@@ -91,7 +91,7 @@ class Booker implements BaseBooker {
             title: doc.data['title'],
             start: start,
             end: end,
-            roomName: room['name'],
+            roomName: room['location'],
             chairs: room['chairs'],
             screens: room['screens'],
             partySize: doc.data['party'].length,
@@ -116,6 +116,7 @@ class Booker implements BaseBooker {
     List<DocumentSnapshot> bookingDocs = await dbRef
         .collection(
             'Institutions/$institute/Campuses/$campus/Rooms/$roomId/Bookings')
+        .orderBy("start")
         .getDocuments()
         .then((data) {
       return data.documents;
@@ -143,7 +144,10 @@ class Booker implements BaseBooker {
           roomName: room['location'],
           chairs: room['chairs'],
           screens: room['screens'],
-          partySize: booking.data['party'].length));
+          partySize: booking.data['party'].length,
+          color: new Color((booking.data['color'] != null
+              ? booking.data['color']
+              : Colors.red.value))));
     });
 
     await Future.delayed(new Duration(seconds: 1));
