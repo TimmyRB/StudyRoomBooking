@@ -17,7 +17,7 @@ class QRPage extends StatefulWidget {
 
 class QRState extends State<QRPage> {
   String barcode = "";
-  Widget _bookings = NotFound();
+  Widget _bookings = SizedBox(width: 500, height: 500);
 
   @override
   void initState() {
