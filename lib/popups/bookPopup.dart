@@ -8,10 +8,12 @@ import 'package:StudyRoomBooking/widgets/fields.dart';
 import 'package:StudyRoomBooking/widgets/buttons.dart';
 
 class BookPopup extends StatefulWidget {
-  BookPopup({Key key, this.booker, this.userId}) : super(key: key);
+  BookPopup({Key key, this.booker, this.userId, this.startDate})
+      : super(key: key);
 
   final BaseBooker booker;
   final String userId;
+  final DateTime startDate;
 
   @override
   BookPopupState createState() => BookPopupState();
@@ -45,7 +47,16 @@ class BookPopupState extends State<BookPopup> {
   void initState() {
     super.initState();
 
-    TimeOfDay rounded = roundUp(TimeOfDay.now(), 30);
+    TimeOfDay rounded;
+
+    if (widget.startDate.day == DateTime.now().day &&
+        widget.startDate.month == DateTime.now().month &&
+        widget.startDate.year == DateTime.now().year) {
+      rounded = roundUp(TimeOfDay.now(), 30);
+    } else {
+      rounded = roundUp(new TimeOfDay(hour: 0, minute: 0), 30);
+    }
+
     _currTime = rounded;
     int h = rounded.hour;
     int m = rounded.minute;
@@ -124,7 +135,8 @@ class BookPopupState extends State<BookPopup> {
                             rightWidget: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Text(DateFormat.MMMEd().format(DateTime.now()),
+                                Text(
+                                    DateFormat.MMMEd().format(widget.startDate),
                                     style: TextStyle(
                                         color: new Color(4280164664),
                                         fontSize: 16.0,
@@ -144,16 +156,26 @@ class BookPopupState extends State<BookPopup> {
                               value: _currTime,
                               items: _times.map((TimeOfDay tod) {
                                 return new DropdownMenuItem<TimeOfDay>(
-                                  value: tod,
-                                  child: Text(DateFormat.Hm().format(new DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, tod.hour, tod.minute)), style: TextStyle(color: new Color(4280164664), fontSize: 17.0, fontFamily: 'Calibri', fontWeight: FontWeight.bold))
-                                );
-                              }).toList(), 
+                                    value: tod,
+                                    child: Text(
+                                        DateFormat.Hm().format(new DateTime(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            DateTime.now().day,
+                                            tod.hour,
+                                            tod.minute)),
+                                        style: TextStyle(
+                                            color: new Color(4280164664),
+                                            fontSize: 17.0,
+                                            fontFamily: 'Calibri',
+                                            fontWeight: FontWeight.bold)));
+                              }).toList(),
                               onChanged: (newTOD) {
                                 setState(() {
                                   _currTime = newTOD;
                                 });
                               },
-                              )),
+                            )),
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * _space),
@@ -306,8 +328,8 @@ class BookPopupState extends State<BookPopup> {
                                 widget.userId,
                                 "MwciM0sVWoiUEr8k3xe1",
                                 _titleController.text,
-                                new DateTime.now().millisecondsSinceEpoch,
-                                new DateTime.now()
+                                widget.startDate.millisecondsSinceEpoch,
+                                widget.startDate
                                     .add(new Duration(
                                         hours: hours, minutes: mins))
                                     .millisecondsSinceEpoch,

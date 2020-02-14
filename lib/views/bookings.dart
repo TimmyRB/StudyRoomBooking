@@ -55,12 +55,19 @@ class BookingsState extends State<BookingsPage> {
           _name = (name != null ? name + '!' : "");
         });
       });
+
+      _saveDate(DateTime.now());
     });
   }
 
   void _saveName(String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('name', name);
+  }
+
+  void _saveDate(DateTime date) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('date', date.millisecondsSinceEpoch);
   }
 
   Future<String> _getName() async {
@@ -109,6 +116,7 @@ class BookingsState extends State<BookingsPage> {
             margin: EdgeInsets.only(bottom: 5.0),
             child: TableCalendar(
               onDaySelected: (DateTime date, List<dynamic> list) {
+                _saveDate(date);
                 widget.booker.getMyBookings(widget.userId, date).then((list) {
                   setState(() {
                     _bookings = ListView(children: list);

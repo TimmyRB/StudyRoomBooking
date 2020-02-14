@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:StudyRoomBooking/firebase/auth.dart';
 import 'package:StudyRoomBooking/firebase/user.dart';
 import 'package:StudyRoomBooking/firebase/book.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Pages & Widgets
 import 'package:StudyRoomBooking/views/bookings.dart';
@@ -36,6 +37,7 @@ class HomeState extends State<HomePage> {
   int _currentIndex = 0;
   List<Widget> _views = [];
   GlobalKey _scaffold = new GlobalKey<ScaffoldState>();
+  DateTime _startDate;
 
   List<FloatingActionButton> _buttons = [];
 
@@ -45,6 +47,14 @@ class HomeState extends State<HomePage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+
+    _startDate = DateTime.now();
+
+    _getDate().then((date) {
+      setState(() {
+        _startDate = date;
+      });
+    });
 
     _views = [
       BookingsPage(
@@ -60,12 +70,18 @@ class HomeState extends State<HomePage> {
       FloatingActionButton(
         onPressed: () {
           Future.delayed(Duration.zero, () {
+            _getDate().then((date) {
+              setState(() {
+                _startDate = date;
+              });
+            });
             Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      BookPopup(booker: widget.booker, userId: widget.userId)),
-            );
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BookPopup(
+                        booker: widget.booker,
+                        userId: widget.userId,
+                        startDate: _startDate)));
           });
         },
         child: Icon(Icons.add, color: Colors.white),
@@ -74,6 +90,12 @@ class HomeState extends State<HomePage> {
       null,
       null
     ];
+  }
+
+  Future<DateTime> _getDate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    DateTime d = new DateTime.fromMillisecondsSinceEpoch(prefs.getInt('date'));
+    return d;
   }
 
   @override
