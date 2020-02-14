@@ -61,9 +61,9 @@ class Booker implements BaseBooker {
       return await doc.data['bookings'];
     });
 
-    bookings.forEach((booking) {
-      booking.get().then((doc) async {
-        if (!doc.exists) return;
+    for (DocumentReference booking in bookings) {
+      DocumentSnapshot doc = await booking.get();
+        if (!doc.exists) continue;
 
         DateTime end = await doc.data['end'].toDate();
 
@@ -73,16 +73,16 @@ class Booker implements BaseBooker {
             'bookings': FieldValue.arrayRemove([booking])
           });
 
-          return;
+          continue;
         }
 
         DateTime start = await doc.data['start'].toDate();
 
         if (end.day != date.day ||
             end.month != date.month ||
-            end.year != date.year) return;
+            end.year != date.year) continue;
 
-        DocumentReference roomRef = await doc.reference.parent().parent();
+        DocumentReference roomRef = doc.reference.parent().parent();
         var room = await roomRef.get().then((doc) {
           return doc.data;
         });
@@ -98,10 +98,7 @@ class Booker implements BaseBooker {
             color: new Color((doc.data['color'] != null
                 ? doc.data['color']
                 : Colors.red.value))));
-      });
-    });
-
-    await Future.delayed(new Duration(milliseconds: 500));
+    }
 
     if (bookingWidgets.length == 0)
       return [NotFound()];
@@ -122,15 +119,15 @@ class Booker implements BaseBooker {
       return data.documents;
     });
 
-    bookingDocs.forEach((booking) async {
-      if (!booking.exists) return;
+    for (DocumentSnapshot booking in bookingDocs) {
+      if (!booking.exists) continue;
 
       DateTime end = await booking.data['end'].toDate();
       DateTime start = await booking.data['start'].toDate();
 
       if (start.day != DateTime.now().day ||
           start.month != DateTime.now().month ||
-          start.year != DateTime.now().year) return;
+          start.year != DateTime.now().year) continue;
 
       DocumentReference roomRef = booking.reference.parent().parent();
       var room = await roomRef.get().then((doc) {
@@ -148,9 +145,7 @@ class Booker implements BaseBooker {
           color: new Color((booking.data['color'] != null
               ? booking.data['color']
               : Colors.red.value))));
-    });
-
-    await Future.delayed(new Duration(seconds: 1));
+    }
 
     if (bookingWidgets.length == 0)
       return [NotFound()];
