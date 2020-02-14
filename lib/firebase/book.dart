@@ -63,41 +63,46 @@ class Booker implements BaseBooker {
 
     for (DocumentReference booking in bookings) {
       DocumentSnapshot doc = await booking.get();
-        if (!doc.exists) continue;
+      if (!doc.exists) {
+        await dbRef.collection('Users').document(userId).updateData({
+          'bookings': FieldValue.arrayRemove([booking])
+        });
+        continue;
+      }
 
-        DateTime end = await doc.data['end'].toDate();
+      DateTime end = await doc.data['end'].toDate();
 
-        if (DateTime.now().compareTo(end) >= 0) {
-          await booking.delete();
-          await dbRef.collection('Users').document(userId).updateData({
-            'bookings': FieldValue.arrayRemove([booking])
-          });
-
-          continue;
-        }
-
-        DateTime start = await doc.data['start'].toDate();
-
-        if (end.day != date.day ||
-            end.month != date.month ||
-            end.year != date.year) continue;
-
-        DocumentReference roomRef = doc.reference.parent().parent();
-        var room = await roomRef.get().then((doc) {
-          return doc.data;
+      if (DateTime.now().compareTo(end) >= 0) {
+        await booking.delete();
+        await dbRef.collection('Users').document(userId).updateData({
+          'bookings': FieldValue.arrayRemove([booking])
         });
 
-        bookingWidgets.add(Booking(
-            title: doc.data['title'],
-            start: start,
-            end: end,
-            roomName: room['location'],
-            chairs: room['chairs'],
-            screens: room['screens'],
-            partySize: doc.data['party'].length,
-            color: new Color((doc.data['color'] != null
-                ? doc.data['color']
-                : Colors.red.value))));
+        continue;
+      }
+
+      DateTime start = await doc.data['start'].toDate();
+
+      if (end.day != date.day ||
+          end.month != date.month ||
+          end.year != date.year) continue;
+
+      DocumentReference roomRef = doc.reference.parent().parent();
+      var room = await roomRef.get().then((doc) {
+        return doc.data;
+      });
+
+      bookingWidgets.add(Booking(
+          title: doc.data['title'],
+          start: start,
+          end: end,
+          roomName: room['location'],
+          chairs: room['chairs'],
+          screens: room['screens'],
+          partySize: doc.data['party'].length,
+          color: new Color((doc.data['color'] != null
+              ? doc.data['color']
+              : Colors.red.value))));
     }
 
     if (bookingWidgets.length == 0)
