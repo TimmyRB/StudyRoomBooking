@@ -324,12 +324,19 @@ class BookPopupState extends State<BookPopup> {
 
                             if (tmpMins != 0) mins = 30;
 
+                            DateTime start = new DateTime(
+                                widget.startDate.year,
+                                widget.startDate.month,
+                                widget.startDate.day,
+                                _currTime.hour,
+                                _currTime.minute);
+
                             widget.booker.createBooking(
                                 widget.userId,
                                 "MwciM0sVWoiUEr8k3xe1",
                                 _titleController.text,
-                                widget.startDate.millisecondsSinceEpoch,
-                                widget.startDate
+                                start.millisecondsSinceEpoch,
+                                start
                                     .add(new Duration(
                                         hours: hours, minutes: mins))
                                     .millisecondsSinceEpoch,
